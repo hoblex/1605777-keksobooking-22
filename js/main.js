@@ -17,7 +17,7 @@ let getRandomInteger = function (beginNumber, endNumber) {
 getRandomInteger(1, 10);
 
 let getRandomFloat = function (beginNumber, endNumber, numbersAfterPoint) {
-  if ((typeof beginNumber !== 'number') || typeof endNumber !== 'number') {
+  if ((typeof beginNumber !== 'number') || typeof endNumber !== 'number' || typeof numbersAfterPoint !== 'number') {
     return 'Входные значения должны быть числами';
   }
 
