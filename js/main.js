@@ -7,12 +7,14 @@ let getRandomInteger = function (beginNumber, endNumber) {
     return 'Числа должны быть целыми';
   }
 
-  if (beginNumber >endNumber) {
-    return 'Первый аргумент должен быть меньше второго';
+  if (beginNumber > endNumber) {
+    return 'Первый аргумент должен быть меньше или равен второму';
   }
 
   return  Math.round(Math.random() * (endNumber - beginNumber)) + beginNumber;
 }
+
+getRandomInteger(1, 10);
 
 let getRandomFloat = function (beginNumber, endNumber, numbersAfterPoint) {
   if ((typeof beginNumber !== 'number') || typeof endNumber !== 'number') {
@@ -23,6 +25,11 @@ let getRandomFloat = function (beginNumber, endNumber, numbersAfterPoint) {
     return 'Количество знаков после запятой должно быть целым положительным числом';
   }
 
+  if (beginNumber > endNumber) {
+    return 'Первый аргумент должен быть меньше или равен второму';
+  }
+
   return  (Math.random() * (endNumber - beginNumber) + beginNumber).toFixed(numbersAfterPoint);
 }
 
+getRandomFloat(1.1, 1.1, 3);
