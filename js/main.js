@@ -97,4 +97,4 @@ const getNewBookingObject = () => {
 };
 
 const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewBookingObject());
-
+console.log(bookingObjectsList);
