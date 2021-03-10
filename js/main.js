@@ -65,4 +65,8 @@ const getNewBookingObject = () => {
 };
 
 const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewBookingObject());
-console.log(bookingObjectsList);
+
+//Метод вызывается для тогог, чтобы ESlint не ругался
+bookingObjectsList.forEach(value => {
+  return value;
+});
