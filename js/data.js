@@ -1,6 +1,5 @@
 export const IMG_ADDRESS = 'img/avatars/user';
 
-export const OBJECTS_COUNT = 10;
 export const TITLES = [
   'У нас вы забудете обо всем на свете!',
   'Отдохнете - мама родная не узнает!',
