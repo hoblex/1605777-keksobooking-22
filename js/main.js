@@ -19,5 +19,3 @@ const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewB
 bookingObjectsList.forEach(value => {
   return value;
 });
-
-console.log(bookingObjectsList);
