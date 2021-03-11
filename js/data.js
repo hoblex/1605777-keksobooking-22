@@ -1,4 +1,8 @@
-export const TITLES = [
+import {getRandomFloat, getRandomInteger} from './random-functions.js';
+
+const IMG_ADDRESS = 'img/avatars/user';
+
+const TITLES = [
   'У нас вы забудете обо всем на свете!',
   'Отдохнете - мама родная не узнает!',
   'Одиссей, тебе сюда от жены от детей!',
@@ -11,15 +15,15 @@ export const TITLES = [
   'Хоромы царские, перины мягкие!',
 ];
 
-export const TYPES = [ 'palace', 'flat', 'house', 'bungalow' ];
+const TYPES = [ 'palace', 'flat', 'house', 'bungalow' ];
 
-export const CHECKIN_TIMES = ['12:00', '13:00', '14:00' ];
+const CHECKIN_TIMES = ['12:00', '13:00', '14:00' ];
 
-export const CHECKOUT_TIMES = ['12:00', '13:00', '14:00' ];
+const CHECKOUT_TIMES = ['12:00', '13:00', '14:00' ];
 
-export const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner' ];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner' ];
 
-export const DESCRIPTION = [
+const DESCRIPTION = [
   'Тепло, сухо, уютно',
   'Красиво, уютно, чисто',
   'Есть всё',
@@ -32,8 +36,60 @@ export const DESCRIPTION = [
   'Уютное, теплое помещение. Почти как у Гарри',
 ];
 
-export const PHOTOS = [
+const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
+
+const getRandomSentence = (elements) => {
+  return elements[getRandomInteger(0, elements.length - 1)];
+};
+
+const getRandomArray = (array) => {
+  return array.slice(0, getRandomInteger(1, array.length - 1));
+};
+
+const getRandomAvatar = (imgAddressArray) => {
+  return {
+    avatar: imgAddressArray + '0' + getRandomInteger(1, 9) + '.png',
+  };
+};
+
+const getRandomObjectLocation = () => {
+  return {
+    x: getRandomFloat(35.65000, 35.70000, 5),
+    y: getRandomFloat(139.70000, 139.80000, 5),
+  }
+};
+
+
+const getRandomOffer = () => {
+  return {
+    title: getRandomSentence(TITLES),
+    address: Object.values(getRandomObjectLocation()).join(', '),
+    price: getRandomInteger(100, 1000) + '$',
+    type: getRandomSentence(TYPES),
+    rooms: getRandomInteger(1, 6),
+    get guests() {
+      return this.rooms + 2;
+    },
+    set guests(value) {
+      this.guests = value;
+    },
+    checkin: getRandomSentence(CHECKIN_TIMES),
+    checkout: getRandomSentence(CHECKOUT_TIMES),
+    features: getRandomArray(FEATURES),
+    description: getRandomSentence(DESCRIPTION),
+    photos: getRandomArray(PHOTOS),
+  }
+};
+
+
+export const getNewBookingObject = () => {
+  return {
+    author: getRandomAvatar(IMG_ADDRESS),
+    offer: getRandomOffer(),
+    objectLocation: getRandomObjectLocation(),
+  };
+};
