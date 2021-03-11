@@ -1,7 +1,6 @@
-// import {IMG_ADDRESS} from './data.js';
-import {getRandomAvatar} from '../js/random-functions.js';
-import {getRandomOffer} from '../js/random-functions.js';
-import {getRandomObjectLocation} from '../js/random-functions.js';
+import {getRandomAvatar} from './random-functions.js';
+import {getRandomOffer} from './random-functions.js';
+import {getRandomObjectLocation} from './random-functions.js';
 
 const IMG_ADDRESS = 'img/avatars/user';
 const getNewBookingObject = () => {
@@ -21,3 +20,4 @@ bookingObjectsList.forEach(value => {
   return value;
 });
 
+console.log(bookingObjectsList);
