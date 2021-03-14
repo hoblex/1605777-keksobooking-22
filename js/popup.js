@@ -89,7 +89,7 @@ bookingObjectsList.forEach(bookingObjectsListItem => {
   if(count === 0) {
     mapCanvas.appendChild(offerCard);
   }
-  // console.log(offerCard);
+  console.log(offerCard);
   count++;
 });
 

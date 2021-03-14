@@ -52,7 +52,7 @@ const getRandomArray = (array) => {
 
 const getRandomAvatar = (imgAddressArray) => {
   return {
-    avatar: imgAddressArray + '0' + getRandomInteger(1, 8) + '.png',
+    avatar: imgAddressArray + `${getRandomInteger(1, 8)}`.padStart(2, '0') + '.png',
   };
 };
 
