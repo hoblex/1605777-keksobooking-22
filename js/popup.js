@@ -64,11 +64,12 @@ bookingObjectsList.forEach(bookingObjectsListItem => {
   const offerCardPhotosFragment = document.createDocumentFragment();
 
   //заполнение фрагмента-контейнера для списка фотографий
-  for (let i = 0; i < bookingObjectsListItem.offer.photos.length; i++) {
+  bookingObjectsListItem.offer.photos.forEach(item => {
     const offerCardPhotosItemTemplate = offerCardPhotosList.querySelector('.popup__photo').cloneNode(true);
-    offerCardPhotosItemTemplate.src = bookingObjectsListItem.offer.photos[i];
+    offerCardPhotosItemTemplate.src = item;
     offerCardPhotosFragment.appendChild(offerCardPhotosItemTemplate);
-  }
+  });
+
   //удаление первой шаблонной строки из списка фотографий
   offerCardPhotosList.removeChild(offerCardPhotosList.querySelector('.popup__photo'));
   offerCardPhotosList.appendChild(offerCardPhotosFragment);
