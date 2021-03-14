@@ -29,7 +29,7 @@ const getBookingObjectListItem = function (bookingObjectsListItem) {
   offerCardFeaturesList.innerHTML = '';
 
   for (let i = 0; i < bookingObjectsListItem.offer.features.length; i++) {
-
+    i++;
   }
 
   if (bookingObjectsListItem.offer.features.includes('wifi')) {
