@@ -7,11 +7,6 @@ const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewB
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-//*********Временный код для вставки первого объявления в map-canvas
-const mapCanvas = document.querySelector('#map-canvas');
-let count = 0;
-//*********Временный код для вставки первого объявления в map-canvas
-
 //заполнение карточки объявления данными из сгенерированного массива объектов
 const getBookingObjectListItem = function (bookingObjectsListItem) {
   const offerCard = cardTemplate.cloneNode(true);
@@ -78,14 +73,13 @@ const getBookingObjectListItem = function (bookingObjectsListItem) {
   const offerCardAvatar = offerCard.querySelector('.popup__avatar');
   offerCardAvatar.src = bookingObjectsListItem.author.avatar;
 
-  //
-  if (count === 0) {
-    mapCanvas.appendChild(offerCard);
-  }
-  console.log(offerCard);
-  count++;
+  return offerCard;
 }
 
 bookingObjectsList.forEach(getBookingObjectListItem);
 
+//*********Временный код для вставки первого объявления в map-canvas
+const mapCanvas = document.querySelector('#map-canvas');
+mapCanvas.appendChild(getBookingObjectListItem(bookingObjectsList[0]));
+//*********Временный код для вставки первого объявления в map-canvas
 
