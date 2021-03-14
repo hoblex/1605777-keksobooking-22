@@ -28,6 +28,10 @@ const getBookingObjectListItem = function (bookingObjectsListItem) {
   const offerCardFeaturesItemConditioner = offerCardFeaturesList.querySelector('.popup__feature--conditioner');
   offerCardFeaturesList.innerHTML = '';
 
+  for (let i = 0; i < bookingObjectsListItem.offer.features.length; i++) {
+
+  }
+
   if (bookingObjectsListItem.offer.features.includes('wifi')) {
     offerCardFeaturesList.appendChild(offerCardFeaturesItemWifi);
   }
