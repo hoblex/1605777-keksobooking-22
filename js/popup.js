@@ -1,4 +1,5 @@
 import {getNewBookingObject} from './data.js';
+import {TYPES} from './data.js';
 
 //Создание массива из сгенерированных объектов-объявлений
 const OBJECTS_COUNT = 10;
@@ -17,18 +18,9 @@ bookingObjectsList.forEach(bookingObjectsListItem => {
   offerCard.querySelector('.popup__title').textContent = bookingObjectsListItem.offer.title;
   offerCard.querySelector('.popup__text--address').textContent = bookingObjectsListItem.offer.address;
   offerCard.querySelector('.popup__text--price').textContent = `${bookingObjectsListItem.offer.price} ₽/ночь`;
-  offerCard.querySelector('.popup__type').textContent = bookingObjectsListItem.offer.type;
 
-  switch (bookingObjectsListItem.offer.type) {
-    case 'flat': offerCard.querySelector('.popup__type').textContent = 'Квартира';
-      break;
-    case 'bungalow': offerCard.querySelector('.popup__type').textContent = 'Бунгало';
-      break;
-    case 'house': offerCard.querySelector('.popup__type').textContent = 'Дом';
-      break;
-    case 'palace': offerCard.querySelector('.popup__type').textContent = 'Дворец';
-      break;
-  }
+  offerCard.querySelector('.popup__type').textContent = TYPES[bookingObjectsListItem.offer.type];
+
   offerCard.querySelector('.popup__text--capacity').textContent = `${bookingObjectsListItem.offer.rooms} комнаты для ${bookingObjectsListItem.offer.guests} гостей`;
   offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${bookingObjectsListItem.offer.checkin}, выезд до ${bookingObjectsListItem.offer.checkout}`;
 
@@ -41,27 +33,27 @@ bookingObjectsList.forEach(bookingObjectsListItem => {
   const offerCardFeaturesItemConditioner = offerCardFeaturesList.querySelector('.popup__feature--conditioner');
   offerCardFeaturesList.innerHTML = '';
 
-  if(bookingObjectsListItem.offer.features.includes('wifi')) {
+  if (bookingObjectsListItem.offer.features.includes('wifi')) {
     offerCardFeaturesList.appendChild(offerCardFeaturesItemWifi);
   }
 
-  if(bookingObjectsListItem.offer.features.includes('dishwasher')) {
+  if (bookingObjectsListItem.offer.features.includes('dishwasher')) {
     offerCardFeaturesList.appendChild(offerCardFeaturesItemDishwasher);
   }
 
-  if(bookingObjectsListItem.offer.features.includes('parking')) {
+  if (bookingObjectsListItem.offer.features.includes('parking')) {
     offerCardFeaturesList.appendChild(offerCardFeaturesItemParking);
   }
 
-  if(bookingObjectsListItem.offer.features.includes('washer')) {
+  if (bookingObjectsListItem.offer.features.includes('washer')) {
     offerCardFeaturesList.appendChild(offerCardFeaturesItemWasher);
   }
 
-  if(bookingObjectsListItem.offer.features.includes('elevator')) {
+  if (bookingObjectsListItem.offer.features.includes('elevator')) {
     offerCardFeaturesList.appendChild(offerCardFeaturesItemElevator);
   }
 
-  if(bookingObjectsListItem.offer.features.includes('conditioner')) {
+  if (bookingObjectsListItem.offer.features.includes('conditioner')) {
     offerCardFeaturesList.appendChild(offerCardFeaturesItemConditioner);
   }
 
@@ -86,7 +78,7 @@ bookingObjectsList.forEach(bookingObjectsListItem => {
   offerCardAvatar.src = bookingObjectsListItem.author.avatar;
 
   //
-  if(count === 0) {
+  if (count === 0) {
     mapCanvas.appendChild(offerCard);
   }
   console.log(offerCard);

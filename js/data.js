@@ -15,7 +15,12 @@ const TITLES = [
   'Хоромы царские, перины мягкие!',
 ];
 
-const TYPES = [ 'palace', 'flat', 'house', 'bungalow' ];
+export const TYPES = {
+  palace : 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+};
 
 const CHECKIN_TIMES = ['12:00', '13:00', '14:00' ];
 
@@ -69,7 +74,7 @@ const getRandomOffer = () => {
     title: getRandomSentence(TITLES),
     address: Object.values(getRandomObjectLocation()).join(', '),
     price: getRandomInteger(100, 1000),
-    type: getRandomSentence(TYPES),
+    type: getRandomSentence(Object.keys(TYPES)),
     rooms: getRandomInteger(1, 6),
     get guests() {
       return this.rooms + 2;
