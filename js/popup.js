@@ -13,7 +13,7 @@ let count = 0;
 //*********Временный код для вставки первого объявления в map-canvas
 
 //заполнение карточки объявления данными из сгенерированного массива объектов
-bookingObjectsList.forEach(bookingObjectsListItem => {
+const getBookingObjectListItem = function (bookingObjectsListItem) {
   const offerCard = cardTemplate.cloneNode(true);
   offerCard.querySelector('.popup__title').textContent = bookingObjectsListItem.offer.title;
   offerCard.querySelector('.popup__text--address').textContent = bookingObjectsListItem.offer.address;
@@ -84,6 +84,8 @@ bookingObjectsList.forEach(bookingObjectsListItem => {
   }
   console.log(offerCard);
   count++;
-});
+}
+
+bookingObjectsList.forEach(getBookingObjectListItem);
 
 
