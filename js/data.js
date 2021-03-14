@@ -47,12 +47,12 @@ const getRandomSentence = (elements) => {
 };
 
 const getRandomArray = (array) => {
-  return array.slice(0, getRandomInteger(1, array.length - 1));
+  return array.slice(0, getRandomInteger(1, array.length));
 };
 
 const getRandomAvatar = (imgAddressArray) => {
   return {
-    avatar: imgAddressArray + '0' + getRandomInteger(1, 9) + '.png',
+    avatar: imgAddressArray + '0' + getRandomInteger(1, 8) + '.png',
   };
 };
 
@@ -68,7 +68,7 @@ const getRandomOffer = () => {
   return {
     title: getRandomSentence(TITLES),
     address: Object.values(getRandomObjectLocation()).join(', '),
-    price: getRandomInteger(100, 1000) + '$',
+    price: getRandomInteger(100, 1000),
     type: getRandomSentence(TYPES),
     rooms: getRandomInteger(1, 6),
     get guests() {
