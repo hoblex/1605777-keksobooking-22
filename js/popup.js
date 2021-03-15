@@ -1,6 +1,8 @@
 import {getNewBookingObject} from './data.js';
 import {TYPES} from './data.js';
 
+const POPUP_FEATURE_BLOCK_CLASS = 'popup__feature';
+
 //Создание массива из сгенерированных объектов-объявлений
 const OBJECTS_COUNT = 10;
 const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewBookingObject());
@@ -20,41 +22,15 @@ const getBookingObjectListItem = function (bookingObjectsListItem) {
   offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${bookingObjectsListItem.offer.checkin}, выезд до ${bookingObjectsListItem.offer.checkout}`;
 
   const offerCardFeaturesList = offerCard.querySelector('.popup__features');
-  const offerCardFeaturesItemWifi = offerCardFeaturesList.querySelector('.popup__feature--wifi');
-  const offerCardFeaturesItemDishwasher = offerCardFeaturesList.querySelector('.popup__feature--dishwasher');
-  const offerCardFeaturesItemParking = offerCardFeaturesList.querySelector('.popup__feature--parking');
-  const offerCardFeaturesItemWasher = offerCardFeaturesList.querySelector('.popup__feature--washer');
-  const offerCardFeaturesItemElevator = offerCardFeaturesList.querySelector('.popup__feature--elevator');
-  const offerCardFeaturesItemConditioner = offerCardFeaturesList.querySelector('.popup__feature--conditioner');
   offerCardFeaturesList.innerHTML = '';
 
-  for (let i = 0; i < bookingObjectsListItem.offer.features.length; i++) {
-    i++;
-  }
-
-  if (bookingObjectsListItem.offer.features.includes('wifi')) {
-    offerCardFeaturesList.appendChild(offerCardFeaturesItemWifi);
-  }
-
-  if (bookingObjectsListItem.offer.features.includes('dishwasher')) {
-    offerCardFeaturesList.appendChild(offerCardFeaturesItemDishwasher);
-  }
-
-  if (bookingObjectsListItem.offer.features.includes('parking')) {
-    offerCardFeaturesList.appendChild(offerCardFeaturesItemParking);
-  }
-
-  if (bookingObjectsListItem.offer.features.includes('washer')) {
-    offerCardFeaturesList.appendChild(offerCardFeaturesItemWasher);
-  }
-
-  if (bookingObjectsListItem.offer.features.includes('elevator')) {
-    offerCardFeaturesList.appendChild(offerCardFeaturesItemElevator);
-  }
-
-  if (bookingObjectsListItem.offer.features.includes('conditioner')) {
-    offerCardFeaturesList.appendChild(offerCardFeaturesItemConditioner);
-  }
+  bookingObjectsListItem.offer.features.forEach(value => {
+    const featureItem = document.createElement('li');
+    const featureItemNewClass = `${POPUP_FEATURE_BLOCK_CLASS}--${value}`;
+    featureItem.classList.add(POPUP_FEATURE_BLOCK_CLASS);
+    featureItem.classList.add(featureItemNewClass);
+    offerCardFeaturesList.appendChild(featureItem);
+  });
 
   offerCard.querySelector('.popup__description').textContent = bookingObjectsListItem.offer.description;
 
