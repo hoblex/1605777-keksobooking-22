@@ -1,5 +1,3 @@
 import './popup.js';
-
-
-// // Метод вызывается для того, чтобы ESLint не ругался
+import './form.js';
 
