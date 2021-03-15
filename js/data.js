@@ -22,9 +22,9 @@ export const TYPES = {
   bungalow: 'Бунгало',
 };
 
-const CHECKIN_TIMES = ['12:00', '13:00', '14:00' ];
+export const CHECKIN_TIMES = ['12:00', '13:00', '14:00' ];
 
-const CHECKOUT_TIMES = ['12:00', '13:00', '14:00' ];
+export const CHECKOUT_TIMES = ['12:00', '13:00', '14:00' ];
 
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner' ];
 
