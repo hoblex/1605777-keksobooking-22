@@ -33,12 +33,9 @@ const checkinTime = document.querySelector('#timein')
 const checkoutTime = document.querySelector('#timeout')
 
 //Функция-обработчик события установки времени заезда-выезда
-const checkinSelectHandler = function (evt) {
-  checkoutTime.value = evt.target.value;
+const checkTimeSelectHandler = function (evt) {
+  this.value = evt.target.value;
 }
 
-const checkoutSelectHandler = function (evt) {
-  checkinTime.value = evt.target.value;
-}
-checkinTime.addEventListener('change', checkinSelectHandler);
-checkoutTime.addEventListener('change', checkoutSelectHandler);
+checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
+checkoutTime.addEventListener('change', checkTimeSelectHandler.bind(checkinTime));
