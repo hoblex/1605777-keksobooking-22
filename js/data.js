@@ -15,7 +15,12 @@ const TITLES = [
   'Хоромы царские, перины мягкие!',
 ];
 
-const TYPES = [ 'palace', 'flat', 'house', 'bungalow' ];
+export const TYPES = {
+  palace : 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+};
 
 const CHECKIN_TIMES = ['12:00', '13:00', '14:00' ];
 
@@ -47,12 +52,12 @@ const getRandomSentence = (elements) => {
 };
 
 const getRandomArray = (array) => {
-  return array.slice(0, getRandomInteger(1, array.length - 1));
+  return array.slice(0, getRandomInteger(1, array.length));
 };
 
 const getRandomAvatar = (imgAddressArray) => {
   return {
-    avatar: imgAddressArray + '0' + getRandomInteger(1, 9) + '.png',
+    avatar: imgAddressArray + `${getRandomInteger(1, 8)}`.padStart(2, '0') + '.png',
   };
 };
 
@@ -68,8 +73,8 @@ const getRandomOffer = () => {
   return {
     title: getRandomSentence(TITLES),
     address: Object.values(getRandomObjectLocation()).join(', '),
-    price: getRandomInteger(100, 1000) + '$',
-    type: getRandomSentence(TYPES),
+    price: getRandomInteger(100, 1000),
+    type: getRandomSentence(Object.keys(TYPES)),
     rooms: getRandomInteger(1, 6),
     get guests() {
       return this.rooms + 2;
