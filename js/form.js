@@ -39,3 +39,15 @@ const checkTimeSelectHandler = function (evt) {
 
 checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
 checkoutTime.addEventListener('change', checkTimeSelectHandler.bind(checkinTime));
+
+// Вариант функции обработчика события
+// const checkTimeSelectHandler = function (event, dest) {
+//   return  function(event) {
+//     dest.value = event.target.value;
+//   }
+// }
+//
+// Вариант использования альтернативной функции обработчика события
+//  checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
+
+
