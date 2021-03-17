@@ -77,3 +77,15 @@ export const changePageActiveState = function () {
 };
 
 changePageActiveState();
+
+//адреса для заполнения координатами
+export const adFormAddress = document.querySelector('#address');
+
+//запрет ввода данных в строку адреса с клавиатуры
+adFormAddress.setAttribute('readonly',true);
+
+//функция установка значения по-умолчанию в пола ввода адреса
+export const setDefaultAddress = function (element, value) {
+  element.value = value;
+}
+
