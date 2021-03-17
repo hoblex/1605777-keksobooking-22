@@ -40,24 +40,32 @@ const checkTimeSelectHandler = function (evt) {
 checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
 checkoutTime.addEventListener('change', checkTimeSelectHandler.bind(checkinTime));
 
-//перевод страницы в неактивное состояние
-const adForm = document.querySelector('.ad-form');
-adForm.classList.add('ad-form--disabled');
-
 //функция добавления/удаления элементам коллекции атрибута disabled
 const changeDisabledState = function (elementsList) {
   for (let key of elementsList) {
-    key.disabled ? key.disabled = false : key.disabled = true
+    key.disabled ? key.disabled = false : key.disabled = true;
   }
 }
 
-const adFormFieldsets = adForm.querySelectorAll('fieldset');
-changeDisabledState(adFormFieldsets);
+//функция добавления/удаления селектора у элемента
+const addDeleteClass = function (element, selector) {
+  element.classList.contains(selector) ? element.classList.remove(selector) : element.classList.add(selector);
+  console.log(element + '   ' + selector);
+}
 
-const mapFilter = document.querySelector('.map__filters');
-mapFilter.classList.add('map__filters--disabled');
+//изменения состояния активности страницы формы
+export const changePageActiveState = function () {
+  const adForm = document.querySelector('.ad-form');
+  addDeleteClass(adForm, 'ad-form--disabled');
 
-const mapFilterSelects = mapFilter.querySelectorAll('select');
-const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
-changeDisabledState(mapFilterSelects);
-changeDisabledState(mapFilterFieldsets);
+  const adFormFieldsets = adForm.querySelectorAll('fieldset');
+  addDeleteClass(adFormFieldsets, 'adFormFieldsets')
+
+  const mapFilter = document.querySelector('.map__filters');
+  mapFilter.classList.add('map__filters--disabled');
+
+  const mapFilterSelects = mapFilter.querySelectorAll('select');
+  const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
+  changeDisabledState(mapFilterSelects);
+  changeDisabledState(mapFilterFieldsets);
+}
