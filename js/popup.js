@@ -57,9 +57,3 @@ const getBookingObjectListItem = function (bookingObjectsListItem) {
 }
 
 bookingObjectsList.forEach(getBookingObjectListItem);
-
-//*********Временный код для вставки первого объявления в map-canvas
-// const mapCanvas = document.querySelector('#map-canvas');
-// mapCanvas.appendChild(getBookingObjectListItem(bookingObjectsList[0]));
-//*********Временный код для вставки первого объявления в map-canvas
-
