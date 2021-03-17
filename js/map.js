@@ -1,6 +1,8 @@
+import {changePageActiveState} from './form.js';
+
 const map = L.map('map-canvas')
   .on('load', () => {
-    console.log('Карта инициализирована')
+    changePageActiveState();
   })
   .setView({
     lat: 59.92749,
