@@ -46,8 +46,9 @@ checkoutTime.addEventListener('change', checkTimeSelectHandler.bind(checkinTime)
 //     dest.value = event.target.value;
 //   }
 // }
-//
+
 // Вариант использования альтернативной функции обработчика события
-//  checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
+// checkinTime.addEventListener('change', checkTimeSelectHandler(event, checkoutTime));
+// checkoutTime.addEventListener('change', checkTimeSelectHandler(event, checkinTime));
 
 
