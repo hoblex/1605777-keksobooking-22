@@ -8,6 +8,11 @@ const TYPES_MIN_PRICES = {
   bungalow: 0,
 }
 
+const AD_TITLE_LENGTH = {
+  min: '30',
+  max: '100',
+}
+
 //Поиск элементов выбора типа жилья из формы
 const accomodationType = document.querySelector('#type');
 //Поиск элементов стоимости жилья из формы
@@ -82,3 +87,19 @@ export const setDefaultAddress = function (element, value) {
   element.value = value;
 }
 
+//валидация формы ввода данных объявления
+const adTitle = document.querySelector('#title');
+adTitle.setAttribute('minlength', AD_TITLE_LENGTH.min)
+adTitle.setAttribute('maxlength', AD_TITLE_LENGTH.max)
+
+adTitle.addEventListener('input', () => {
+  const valueLength = adTitle.value.length;
+  if (valueLength < AD_TITLE_LENGTH.min) {
+    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
+  } else if (valueLength > AD_TITLE_LENGTH.max) {
+    adTitle.setCustomValidity(`Максимальная длина поля 100 симв. Удалите лишние ${valueLength - AD_TITLE_LENGTH.max} симв.`)
+  } else {
+    adTitle.setCustomValidity('')
+  }
+  adTitle.reportValidity();
+});
