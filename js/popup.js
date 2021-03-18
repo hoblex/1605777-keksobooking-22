@@ -5,7 +5,7 @@ const POPUP_FEATURE_BLOCK_CLASS = 'popup__feature';
 
 //Создание массива из сгенерированных объектов-объявлений
 const OBJECTS_COUNT = 10;
-const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewBookingObject());
+export const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewBookingObject());
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
