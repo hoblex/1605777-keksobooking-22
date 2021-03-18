@@ -14,22 +14,22 @@ const AD_TITLE_LENGTH = {
 }
 
 //Поиск элементов выбора типа жилья из формы
-const accomodationType = document.querySelector('#type');
+const adType = document.querySelector('#type');
 //Поиск элементов стоимости жилья из формы
-const accomodationPrice = document.querySelector('#price');
+const adPrice = document.querySelector('#price');
 
 //Предварительная проверка установленного по-умолчанию значения типа жилья
-const setDefaultAccomodationType = function () {
+const setDefaultAdType = function () {
   for (let key in TYPES) {
-    if (accomodationType.value === key) {
-      accomodationPrice.setAttribute('min', TYPES_MIN_PRICES[key]);
+    if (adType.value === key) {
+      adPrice.setAttribute('min', TYPES_MIN_PRICES[key]);
     }
   }
 }
-setDefaultAccomodationType();
+setDefaultAdType();
 //Подписка на событие выбора типа жилья
-accomodationType.addEventListener('change', function (evt) {
-  accomodationPrice.setAttribute('min', TYPES_MIN_PRICES[evt.target.value]);
+adType.addEventListener('change', function (evt) {
+  adPrice.setAttribute('min', TYPES_MIN_PRICES[evt.target.value]);
 });
 
 //Поиск элементов установки времени заезда
@@ -103,3 +103,5 @@ adTitle.addEventListener('input', () => {
   }
   adTitle.reportValidity();
 });
+
+console.log()
