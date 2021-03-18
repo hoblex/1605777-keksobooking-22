@@ -10,7 +10,7 @@ export const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 //заполнение карточки объявления данными из сгенерированного массива объектов
-const getBookingObjectListItem = function (bookingObjectsListItem) {
+const getNewBookingObjectCard = function (bookingObjectsListItem) {
   const offerCard = cardTemplate.cloneNode(true);
   offerCard.querySelector('.popup__title').textContent = bookingObjectsListItem.offer.title;
   offerCard.querySelector('.popup__text--address').textContent = bookingObjectsListItem.offer.address;
@@ -56,4 +56,5 @@ const getBookingObjectListItem = function (bookingObjectsListItem) {
   return offerCard;
 }
 
-bookingObjectsList.forEach(getBookingObjectListItem);
+//создание массива из сгенерированных карточек (разметки) объявлений
+export const bookingObjectsCardList = bookingObjectsList.map((element) => getNewBookingObjectCard(element));
