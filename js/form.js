@@ -52,13 +52,6 @@ const addDeleteOneElementClass = function (element, selector) {
   element.classList.contains(selector) ? element.classList.remove(selector) : element.classList.add(selector);
 }
 
-//функции добавления/удаления селектора у коллекции элементов
-const addDeleteSomeElementsClass = function (elements, selector) {
-  for (let key of elements) {
-    key.classList.contains(selector) ? key.classList.remove(selector) : key.classList.add(selector);
-  }
-}
-
 //функция изменения состояния активности страницы формы
 export const changePageActiveState = function () {
   const adForm = document.querySelector('.ad-form');
