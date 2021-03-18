@@ -75,7 +75,7 @@ changePageActiveState();
 export const adFormAddress = document.querySelector('#address');
 
 //запрет ввода данных в строку адреса с клавиатуры
-adFormAddress.setAttribute('readonly',true);
+adFormAddress.setAttribute('readonly','true');
 
 //функция установка значения по-умолчанию в пола ввода адреса
 export const setDefaultAddress = function (element, value) {

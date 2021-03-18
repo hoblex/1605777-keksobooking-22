@@ -1,7 +1,8 @@
+/* global L:readonly */
 import {changePageActiveState} from './form.js';
-import {adFormAddress} from "./form.js";
-import {setDefaultAddress} from "./form.js";
-import {bookingObjectsList, bookingObjectsCardList} from "./popup.js";
+import {adFormAddress} from './form.js';
+import {setDefaultAddress} from './form.js';
+import {bookingObjectsList, bookingObjectsCardList} from './popup.js';
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
 const map = L.map('map-canvas')
@@ -58,8 +59,7 @@ setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', '
 
 //создание массива точек расположения объявлений
 const points = bookingObjectsList.map(function (element) {
-  const point = new Object({lat: element.objectLocation.x, lng: element.objectLocation.y});
-  return point;
+  return new Object({lat: element.objectLocation.x, lng: element.objectLocation.y});
 });
 
 points.forEach(({lat, lng}, index) => {
@@ -81,5 +81,5 @@ points.forEach(({lat, lng}, index) => {
 
   marker
     .addTo(map)
-    .bindPopup(bookingObjectsCardList[index], { keepInView: true,},);
+    .bindPopup(bookingObjectsCardList[index], { keepInView: true});
 });
