@@ -42,14 +42,14 @@ checkoutTime.addEventListener('change', checkTimeSelectHandler.bind(checkinTime)
 
 //функция добавления/удаления элементам коллекции атрибута disabled
 const changeDisabledState = function (elementsList) {
-  for (let key of elementsList) {
-    key.disabled ? key.disabled = false : key.disabled = true;
+  for (let element of elementsList) {
+    element.disabled = !element.disabled ;
   }
 }
 
 //функции добавления/удаления селектора у элемента
 const addDeleteOneElementClass = function (element, selector) {
-  element.classList.contains(selector) ? element.classList.remove(selector) : element.classList.add(selector);
+  element.classList.toggle(selector) ;
 }
 
 //функция изменения состояния активности страницы формы
