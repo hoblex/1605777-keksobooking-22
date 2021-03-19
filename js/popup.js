@@ -5,12 +5,12 @@ const POPUP_FEATURE_BLOCK_CLASS = 'popup__feature';
 
 //Создание массива из сгенерированных объектов-объявлений
 const OBJECTS_COUNT = 10;
-const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewBookingObject());
+export const bookingObjectsList = new Array(OBJECTS_COUNT).fill(null).map(() => getNewBookingObject());
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 //заполнение карточки объявления данными из сгенерированного массива объектов
-const getBookingObjectListItem = function (bookingObjectsListItem) {
+const getNewBookingObjectCard = function (bookingObjectsListItem) {
   const offerCard = cardTemplate.cloneNode(true);
   offerCard.querySelector('.popup__title').textContent = bookingObjectsListItem.offer.title;
   offerCard.querySelector('.popup__text--address').textContent = bookingObjectsListItem.offer.address;
@@ -56,10 +56,5 @@ const getBookingObjectListItem = function (bookingObjectsListItem) {
   return offerCard;
 }
 
-bookingObjectsList.forEach(getBookingObjectListItem);
-
-//*********Временный код для вставки первого объявления в map-canvas
-const mapCanvas = document.querySelector('#map-canvas');
-mapCanvas.appendChild(getBookingObjectListItem(bookingObjectsList[0]));
-//*********Временный код для вставки первого объявления в map-canvas
-
+//создание массива из сгенерированных карточек (разметки) объявлений
+export const bookingObjectsCardList = bookingObjectsList.map((element) => getNewBookingObjectCard(element));

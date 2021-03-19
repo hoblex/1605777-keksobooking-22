@@ -40,14 +40,45 @@ const checkTimeSelectHandler = function (evt) {
 checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
 checkoutTime.addEventListener('change', checkTimeSelectHandler.bind(checkinTime));
 
-// Вариант функции обработчика события
-// const checkTimeSelectHandler = function (event, dest) {
-//   return  function(event) {
-//     dest.value = event.target.value;
-//   }
-// }
-//
-// Вариант использования альтернативной функции обработчика события
-//  checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
+//функция добавления/удаления элементам коллекции атрибута disabled
+const changeDisabledState = function (elementsList) {
+  for (let element of elementsList) {
+    element.disabled = !element.disabled ;
+  }
+}
 
+//функции добавления/удаления селектора у элемента
+const addDeleteOneElementClass = function (element, selector) {
+  element.classList.toggle(selector) ;
+}
+
+//функция изменения состояния активности страницы формы
+export const changePageActiveState = function () {
+  const adForm = document.querySelector('.ad-form');
+  addDeleteOneElementClass(adForm, 'ad-form--disabled');
+
+  const adFormFieldsets = adForm.querySelectorAll('fieldset');
+  changeDisabledState(adFormFieldsets);
+
+  const mapFilter = document.querySelector('.map__filters');
+  addDeleteOneElementClass(mapFilter, 'map__filters--disabled');
+
+  const mapFilterSelects = mapFilter.querySelectorAll('select');
+  const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
+  changeDisabledState(mapFilterSelects);
+  changeDisabledState(mapFilterFieldsets);
+};
+
+changePageActiveState();
+
+//адреса для заполнения координатами
+export const adFormAddress = document.querySelector('#address');
+
+//запрет ввода данных в строку адреса с клавиатуры
+adFormAddress.setAttribute('readonly','true');
+
+//функция установка значения по-умолчанию в пола ввода адреса
+export const setDefaultAddress = function (element, value) {
+  element.value = value;
+}
 
