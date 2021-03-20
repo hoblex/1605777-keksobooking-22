@@ -8,6 +8,8 @@ const TYPES_MIN_PRICES = {
   bungalow: 0,
 }
 
+const TYPES_MAX_PRICE = 1000000;
+
 const AD_TITLE_LENGTH = {
   min: '30',
   max: '100',
@@ -31,6 +33,10 @@ setDefaultAdType();
 adType.addEventListener('change', function (evt) {
   adPrice.setAttribute('min', TYPES_MIN_PRICES[evt.target.value]);
 });
+
+
+//установка макстсального значения стоимости жилья всех типов
+adPrice.setAttribute('max', TYPES_MAX_PRICE);
 
 //Поиск элементов установки времени заезда
 const checkinTime = document.querySelector('#timein')
