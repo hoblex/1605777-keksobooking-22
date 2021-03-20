@@ -92,7 +92,7 @@ const adTitle = document.querySelector('#title');
 adTitle.setAttribute('minlength', AD_TITLE_LENGTH.min)
 adTitle.setAttribute('maxlength', AD_TITLE_LENGTH.max)
 
-adTitle.addEventListener('input', () => {
+adTitle.addEventListener('input', function() {
   const valueLength = adTitle.value.length;
   if (valueLength < AD_TITLE_LENGTH.min) {
     adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
@@ -104,4 +104,10 @@ adTitle.addEventListener('input', () => {
   adTitle.reportValidity();
 });
 
-console.log()
+//валидация ввода данных при отправке формы объявления
+adTitle.addEventListener('invalid', function () {
+  const valueLength = adTitle.value.length;
+  if (valueLength === 0) {
+    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
+  }
+});
