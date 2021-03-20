@@ -8,7 +8,7 @@ const TYPES_MIN_PRICES = {
   bungalow: 0,
 }
 
-const TYPES_MAX_PRICE = 1000000;
+const TYPES_MAX_PRICE = '1000000';
 
 const AD_TITLE_LENGTH = {
   min: '30',
@@ -32,11 +32,31 @@ setDefaultAdType();
 //Подписка на событие выбора типа жилья
 adType.addEventListener('change', function (evt) {
   adPrice.setAttribute('min', TYPES_MIN_PRICES[evt.target.value]);
+  adPrice.placeholder = TYPES_MIN_PRICES[evt.target.value];
 });
 
 
-//установка макстсального значения стоимости жилья всех типов
+//установка максимального значения стоимости жилья всех типов
 adPrice.setAttribute('max', TYPES_MAX_PRICE);
+//валидация цены при вводе значения в соответсвтующее поле
+adPrice.addEventListener('input', function (){
+  const valuePrice = adPrice.value;
+  if (valuePrice > TYPES_MAX_PRICE) {
+    adPrice.setCustomValidity('Максимальная цена жилья 1000000');
+  } else {
+    adPrice.setCustomValidity('');
+  }
+});
+
+//валидация значения цены при отправке формы
+adPrice.addEventListener('invalid', function (){
+  const valuePrice = adPrice.value;
+  if (valuePrice > TYPES_MAX_PRICE) {
+    adPrice.setCustomValidity('Максимальная цена жилья 1000000');
+  } else {
+    adPrice.setCustomValidity('');
+  }
+});
 
 //Поиск элементов установки времени заезда
 const checkinTime = document.querySelector('#timein')
@@ -93,7 +113,7 @@ export const setDefaultAddress = function (element, value) {
   element.value = value;
 }
 
-//валидация формы ввода данных объявления
+//валидация загаловка в форме ввода данных объявления
 const adTitle = document.querySelector('#title');
 adTitle.setAttribute('minlength', AD_TITLE_LENGTH.min)
 adTitle.setAttribute('maxlength', AD_TITLE_LENGTH.max)
