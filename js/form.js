@@ -15,9 +15,9 @@ const AD_TITLE_LENGTH = {
   max: '100',
 }
 
-//Поиск элементов выбора типа жилья из формы
+//Поиск элемента выбора типа жилья из формы
 const adType = document.querySelector('#type');
-//Поиск элементов стоимости жилья из формы
+//Поиск элемента стоимости жилья из формы
 const adPrice = document.querySelector('#price');
 
 //Предварительная проверка установленного по-умолчанию значения типа жилья
@@ -39,20 +39,28 @@ adType.addEventListener('change', function (evt) {
 //установка максимального значения стоимости жилья всех типов
 adPrice.setAttribute('max', TYPES_MAX_PRICE);
 //валидация цены при вводе значения в соответсвтующее поле
-adPrice.addEventListener('input', function (){
-  const valuePrice = adPrice.value;
-  if (valuePrice > TYPES_MAX_PRICE) {
+adPrice.addEventListener('input', function (evt){
+  const valuePrice = evt.target.value;
+
+  if (+valuePrice > TYPES_MAX_PRICE) {
     adPrice.setCustomValidity('Максимальная цена жилья 1000000');
+  } else if (+valuePrice <= +adPrice.getAttribute('min')) {
+    adPrice.setCustomValidity(`Цена должна быть больше или равна ${adPrice.getAttribute('min')}`);
   } else {
     adPrice.setCustomValidity('');
   }
+  adPrice.reportValidity();
 });
 
 //валидация значения цены при отправке формы
-adPrice.addEventListener('invalid', function (){
-  const valuePrice = adPrice.value;
-  if (valuePrice > TYPES_MAX_PRICE) {
+adPrice.addEventListener('invalid', function (evt){
+  const valuePrice = evt.target.value;
+  if (+valuePrice > TYPES_MAX_PRICE) {
     adPrice.setCustomValidity('Максимальная цена жилья 1000000');
+  } else if (valuePrice === '') {
+    adPrice.setCustomValidity('Введите значение стоимости жилья за ночь');
+  } else if (+valuePrice <= +adPrice.getAttribute('min')) {
+    adPrice.setCustomValidity(`Цена должна быть больше или равна ${adPrice.getAttribute('min')}`);
   } else {
     adPrice.setCustomValidity('');
   }
@@ -113,13 +121,13 @@ export const setDefaultAddress = function (element, value) {
   element.value = value;
 }
 
-//валидация загаловка в форме ввода данных объявления
+//валидация заголовка в форме ввода данных объявления
 const adTitle = document.querySelector('#title');
 adTitle.setAttribute('minlength', AD_TITLE_LENGTH.min)
 adTitle.setAttribute('maxlength', AD_TITLE_LENGTH.max)
 
-adTitle.addEventListener('input', function() {
-  const valueLength = adTitle.value.length;
+adTitle.addEventListener('input', function(evt) {
+  const valueLength = evt.target.value.length;
   if (valueLength < AD_TITLE_LENGTH.min) {
     adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
   } else if (valueLength > AD_TITLE_LENGTH.max) {
@@ -131,9 +139,80 @@ adTitle.addEventListener('input', function() {
 });
 
 //валидация ввода данных при отправке формы объявления
-adTitle.addEventListener('invalid', function () {
-  const valueLength = adTitle.value.length;
+adTitle.addEventListener('invalid', function (evt) {
+  const valueLength = evt.target.value.length;
   if (valueLength === 0) {
     adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
   }
 });
+
+//валидация пункта выбора количества комнат
+const roomNumber = document.querySelector('#room_number');
+const capacity = document.querySelector('#capacity');
+
+let roomNumberValue = document.querySelector('#room_number').value;
+let capacityValue = document.querySelector('#capacity').value;
+
+const validateRoomNumber = function (roomN, capacityN) {
+  if(roomN === '1') {
+    capacity.options[0].disabled = true;
+    capacity.options[1].disabled = true;
+    capacity.options[2].disabled = false;
+    capacity.options[3].disabled = true;
+    if (capacityN === '0') {
+      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
+    } else if  (capacityN === '2' || capacityN === '3'){
+      capacity.setCustomValidity('Число комнат необходимо увеличить');
+    } else {
+      capacity.setCustomValidity('');
+    }
+  } else if (roomN === '2') {
+    capacity.options[0].disabled = true;
+    capacity.options[1].disabled = false;
+    capacity.options[2].disabled = false;
+    capacity.options[3].disabled = true;
+    if  (capacityN === '0'){
+      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
+    } else if (capacityN === '3') {
+      capacity.setCustomValidity('Число комнат необходимо увеличить ');
+    } else {
+      capacity.setCustomValidity('');
+    }
+  } else if (roomNumberValue === '3') {
+    capacity.options[0].disabled = false;
+    capacity.options[1].disabled = false;
+    capacity.options[2].disabled = false;
+    capacity.options[3].disabled = true;
+    if  (capacityN === '0'){
+      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
+    } else {
+      capacity.setCustomValidity('');
+    }
+  } else if (roomNumberValue === '100') {
+    capacity.options[0].disabled = true;
+    capacity.options[1].disabled = true;
+    capacity.options[2].disabled = true;
+    capacity.options[3].disabled = false;
+    if (capacityValue !== '0') {
+      capacity.setCustomValidity('Доступен только пункт "Не для гостей"');
+    } else {
+      capacity.setCustomValidity('');
+    }
+  } else {
+    capacity.setCustomValidity('');
+  }
+  capacity.reportValidity();
+}
+validateRoomNumber(roomNumberValue, capacityValue);
+
+roomNumber.addEventListener('change', function(evt) {
+  roomNumberValue = evt.target.value;
+  validateRoomNumber(roomNumberValue, capacityValue);
+});
+
+capacity.addEventListener('change', function(evt) {
+  capacityValue = evt.target.value;
+  validateRoomNumber(roomNumberValue, capacityValue);
+});
+
+
