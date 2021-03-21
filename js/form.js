@@ -59,7 +59,7 @@ adPrice.addEventListener('invalid', function (evt){
     adPrice.setCustomValidity('Максимальная цена жилья 1000000');
   } else if (valuePrice === '') {
     adPrice.setCustomValidity('Введите значение стоимости жилья за ночь');
-  } else if (+valuePrice <= +adPrice.getAttribute('min')) {
+  } else if (+valuePrice < +adPrice.getAttribute('min')) {
     adPrice.setCustomValidity(`Цена должна быть больше или равна ${adPrice.getAttribute('min')}`);
   } else {
     adPrice.setCustomValidity('');
