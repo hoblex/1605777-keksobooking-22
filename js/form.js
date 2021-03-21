@@ -149,60 +149,41 @@ adTitle.addEventListener('invalid', function (evt) {
 //валидация пункта выбора количества комнат
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
+const capacityOptions = capacity.querySelectorAll('option');
 
 let roomNumberValue = document.querySelector('#room_number').value;
 let capacityValue = document.querySelector('#capacity').value;
 
+
 const validateRoomNumber = function (roomN, capacityN) {
-  if(roomN === '1') {
-    capacity.options[0].disabled = true;
-    capacity.options[1].disabled = true;
-    capacity.options[2].disabled = false;
-    capacity.options[3].disabled = true;
-    if (capacityN === '0') {
-      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
-    } else if  (capacityN === '2' || capacityN === '3'){
-      capacity.setCustomValidity('Число комнат необходимо увеличить');
-    } else {
-      capacity.setCustomValidity('');
+  if (roomN === '100') {
+    capacityOptions[capacityOptions.length - 1].disabled = false;
+    for (let key = 0; key < capacityOptions.length - 1; key++) {
+      capacityOptions[key].disabled = true;
     }
-  } else if (roomN === '2') {
-    capacity.options[0].disabled = true;
-    capacity.options[1].disabled = false;
-    capacity.options[2].disabled = false;
-    capacity.options[3].disabled = true;
-    if  (capacityN === '0'){
-      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
-    } else if (capacityN === '3') {
-      capacity.setCustomValidity('Число комнат необходимо увеличить ');
-    } else {
-      capacity.setCustomValidity('');
-    }
-  } else if (roomNumberValue === '3') {
-    capacity.options[0].disabled = false;
-    capacity.options[1].disabled = false;
-    capacity.options[2].disabled = false;
-    capacity.options[3].disabled = true;
-    if  (capacityN === '0'){
-      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
-    } else {
-      capacity.setCustomValidity('');
-    }
-  } else if (roomNumberValue === '100') {
-    capacity.options[0].disabled = true;
-    capacity.options[1].disabled = true;
-    capacity.options[2].disabled = true;
-    capacity.options[3].disabled = false;
-    if (capacityValue !== '0') {
+    if (capacityN !== '0') {
       capacity.setCustomValidity('Доступен только пункт "Не для гостей"');
     } else {
       capacity.setCustomValidity('');
     }
   } else {
-    capacity.setCustomValidity('');
+    capacityOptions[capacityOptions.length - 1].disabled = true;
+    for (let key = 0; key < capacityOptions.length - 1; key++) {
+      capacityOptions[key].disabled = (roomN < capacityOptions[key].value);
+    }
+    if (capacityN === '0') {
+      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
+    } else if  (capacityN > roomN){
+      roomNumber.setCustomValidity('Число комнат необходимо увеличить');
+    } else {
+      capacity.setCustomValidity('');
+      roomNumber.setCustomValidity('');
+    }
   }
   capacity.reportValidity();
+  roomNumber.reportValidity();
 }
+
 validateRoomNumber(roomNumberValue, capacityValue);
 
 roomNumber.addEventListener('change', function(evt) {
