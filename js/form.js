@@ -8,23 +8,62 @@ const TYPES_MIN_PRICES = {
   bungalow: 0,
 }
 
-//Поиск элементов выбора типа жилья из формы
-const accomodationType = document.querySelector('#type');
-//Поиск элементов стоимости жилья из формы
-const accomodationPrice = document.querySelector('#price');
+const TYPES_MAX_PRICE = '1000000';
+
+const AD_TITLE_LENGTH = {
+  min: '30',
+  max: '100',
+}
+
+//Поиск элемента выбора типа жилья из формы
+const adType = document.querySelector('#type');
+//Поиск элемента стоимости жилья из формы
+const adPrice = document.querySelector('#price');
 
 //Предварительная проверка установленного по-умолчанию значения типа жилья
-const setDefaultAccomodationType = function () {
+const setDefaultAdType = function () {
   for (let key in TYPES) {
-    if (accomodationType.value === key) {
-      accomodationPrice.setAttribute('min', TYPES_MIN_PRICES[key]);
+    if (adType.value === key) {
+      adPrice.setAttribute('min', TYPES_MIN_PRICES[key]);
     }
   }
 }
-setDefaultAccomodationType();
+setDefaultAdType();
 //Подписка на событие выбора типа жилья
-accomodationType.addEventListener('change', function (evt) {
-  accomodationPrice.setAttribute('min', TYPES_MIN_PRICES[evt.target.value]);
+adType.addEventListener('change', function (evt) {
+  adPrice.setAttribute('min', TYPES_MIN_PRICES[evt.target.value]);
+  adPrice.placeholder = TYPES_MIN_PRICES[evt.target.value];
+});
+
+
+//установка максимального значения стоимости жилья всех типов
+adPrice.setAttribute('max', TYPES_MAX_PRICE);
+//валидация цены при вводе значения в соответсвтующее поле
+adPrice.addEventListener('input', function (evt){
+  const valuePrice = evt.target.value;
+
+  if (+valuePrice > TYPES_MAX_PRICE) {
+    adPrice.setCustomValidity('Максимальная цена жилья 1000000');
+  } else if (+valuePrice <= +adPrice.getAttribute('min')) {
+    adPrice.setCustomValidity(`Цена должна быть больше или равна ${adPrice.getAttribute('min')}`);
+  } else {
+    adPrice.setCustomValidity('');
+  }
+  adPrice.reportValidity();
+});
+
+//валидация значения цены при отправке формы
+adPrice.addEventListener('invalid', function (evt){
+  const valuePrice = evt.target.value;
+  if (+valuePrice > TYPES_MAX_PRICE) {
+    adPrice.setCustomValidity('Максимальная цена жилья 1000000');
+  } else if (valuePrice === '') {
+    adPrice.setCustomValidity('Введите значение стоимости жилья за ночь');
+  } else if (+valuePrice < +adPrice.getAttribute('min')) {
+    adPrice.setCustomValidity(`Цена должна быть больше или равна ${adPrice.getAttribute('min')}`);
+  } else {
+    adPrice.setCustomValidity('');
+  }
 });
 
 //Поиск элементов установки времени заезда
@@ -81,4 +120,80 @@ adFormAddress.setAttribute('readonly','true');
 export const setDefaultAddress = function (element, value) {
   element.value = value;
 }
+
+//валидация заголовка в форме ввода данных объявления
+const adTitle = document.querySelector('#title');
+adTitle.setAttribute('minlength', AD_TITLE_LENGTH.min)
+adTitle.setAttribute('maxlength', AD_TITLE_LENGTH.max)
+
+adTitle.addEventListener('input', function(evt) {
+  const valueLength = evt.target.value.length;
+  if (valueLength < AD_TITLE_LENGTH.min) {
+    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
+  } else if (valueLength > AD_TITLE_LENGTH.max) {
+    adTitle.setCustomValidity(`Максимальная длина поля 100 симв. Удалите лишние ${valueLength - AD_TITLE_LENGTH.max} симв.`)
+  } else {
+    adTitle.setCustomValidity('')
+  }
+  adTitle.reportValidity();
+});
+
+//валидация ввода данных при отправке формы объявления
+adTitle.addEventListener('invalid', function (evt) {
+  const valueLength = evt.target.value.length;
+  if (valueLength === 0) {
+    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
+  }
+});
+
+//валидация пункта выбора количества комнат
+const roomNumber = document.querySelector('#room_number');
+const capacity = document.querySelector('#capacity');
+const capacityOptions = capacity.querySelectorAll('option');
+
+let roomNumberValue = document.querySelector('#room_number').value;
+let capacityValue = document.querySelector('#capacity').value;
+
+
+const validateRoomNumber = function (roomN, capacityN) {
+  if (roomN === '100') {
+    capacityOptions[capacityOptions.length - 1].disabled = false;
+    for (let key = 0; key < capacityOptions.length - 1; key++) {
+      capacityOptions[key].disabled = true;
+    }
+    if (capacityN !== '0') {
+      capacity.setCustomValidity('Доступен только пункт "Не для гостей"');
+    } else {
+      capacity.setCustomValidity('');
+    }
+  } else {
+    capacityOptions[capacityOptions.length - 1].disabled = true;
+    for (let key = 0; key < capacityOptions.length - 1; key++) {
+      capacityOptions[key].disabled = (roomN < capacityOptions[key].value);
+    }
+    if (capacityN === '0') {
+      capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
+    } else if  (capacityN > roomN){
+      roomNumber.setCustomValidity('Число комнат необходимо увеличить');
+    } else {
+      capacity.setCustomValidity('');
+      roomNumber.setCustomValidity('');
+    }
+  }
+  capacity.reportValidity();
+  roomNumber.reportValidity();
+}
+
+validateRoomNumber(roomNumberValue, capacityValue);
+
+roomNumber.addEventListener('change', function(evt) {
+  roomNumberValue = evt.target.value;
+  validateRoomNumber(roomNumberValue, capacityValue);
+});
+
+capacity.addEventListener('change', function(evt) {
+  capacityValue = evt.target.value;
+  validateRoomNumber(roomNumberValue, capacityValue);
+});
+
 
