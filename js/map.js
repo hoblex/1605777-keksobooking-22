@@ -2,7 +2,7 @@
 import {changePageActiveState} from './form.js';
 import {adFormAddress} from './form.js';
 import {setDefaultAddress} from './form.js';
-import {bookingObjectsList, bookingObjectsCardList} from './popup.js';
+import {getBookingObjectsCardList} from './popup.js';
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
 const map = L.map('map-canvas')
@@ -12,7 +12,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: 35.6895,
     lng: 139.69171,
-  }, 12);
+  }, 10);
 
 
 //добавление описания карты
@@ -57,29 +57,34 @@ setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', '
 //Удаление маркера
 // mainPinMarker.remove();
 
-//создание массива точек расположения объявлений
-const points = bookingObjectsList.map(function (element) {
-  return new Object({lat: element.objectLocation.x, lng: element.objectLocation.y});
-});
+fetch('https://22.javascript.pages.academy/keksobooking/data')
+  .then((response) => response.json())
+  .then((adObjectsList) => {
+    const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
 
-points.forEach(({lat, lng}, index) => {
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    const points = adObjectsList.map(function (element) {
+      return new Object({lat: element.location.lat, lng: element.location.lng});
+    });
+
+    points.forEach(({lat, lng}, index) => {
+      const icon = L.icon({
+        iconUrl: 'img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+      });
+
+      const marker = L.marker(
+        {
+          lat,
+          lng,
+        },
+        {
+          icon,
+        },
+      );
+
+      marker
+        .addTo(map)
+        .bindPopup(bookingObjectsCardList[index], { keepInView: true});
+    });
   });
-
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(bookingObjectsCardList[index], { keepInView: true});
-});
