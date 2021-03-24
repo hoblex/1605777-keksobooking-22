@@ -3,7 +3,7 @@ import {changePageActiveState} from './form.js';
 import {adFormAddress} from './form.js';
 import {setDefaultAddress} from './form.js';
 import {getBookingObjectsCardList} from './popup.js';
-import {showAlert} from "./util-functions.js";
+import {showAlert} from './util-functions.js';
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
 const map = L.map('map-canvas')
