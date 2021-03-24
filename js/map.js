@@ -1,7 +1,7 @@
 /* global L:readonly */
 import {changePageActiveState} from './form.js';
 import {adFormAddress} from './form.js';
-import {setDefaultAddress} from './form.js';
+// import {setDefaultAddress} from './form.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
 
@@ -45,7 +45,10 @@ const mainPinMarker = L.marker(
 );
 
 //добавление маркера на карту
-mainPinMarker.addTo(map);
+export const addMainPinMarkerToMap = function () {
+  mainPinMarker.addTo(map)
+};
+addMainPinMarkerToMap();
 
 //обработка координат хвоста маркера
 mainPinMarker.on('drag', (evt) => {
@@ -53,6 +56,10 @@ mainPinMarker.on('drag', (evt) => {
   adFormAddress.value = evt.target.getLatLng().lat.toFixed(5) + ', ' + evt.target.getLatLng().lng.toFixed(5);
 });
 
+//функция установка значения по-умолчанию в пола ввода адреса
+export const setDefaultAddress = function (element, value) {
+  element.value = value;
+}
 setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', ' + mainPinMarker.getLatLng().lng.toFixed(5));
 
 //Удаление маркера
