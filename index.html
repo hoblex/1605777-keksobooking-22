@@ -89,7 +89,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="title">Заголовок объявления</label>
-          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" required>
+          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио" required  value="Просто надпись для отладки отправки формы">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
@@ -106,7 +106,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" max="1000000" required>
+          <input id="price" name="price" type="number" placeholder="5000" max="1000000" required  value="5000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -124,9 +124,9 @@
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="room_number">Количество комнат</label>
           <select id="room_number" name="rooms">
-            <option value="1" selected>1 комната</option>
+            <option value="1" >1 комната</option>
             <option value="2">2 комнаты</option>
-            <option value="3">3 комнаты</option>
+            <option value="3" selected>3 комнаты</option>
             <option value="100">100 комнат</option>
           </select>
         </fieldset>

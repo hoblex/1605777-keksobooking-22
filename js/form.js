@@ -1,4 +1,5 @@
 import {TYPES} from './data.js';
+import {sendData} from './api.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -197,18 +198,54 @@ capacity.addEventListener('change', function(evt) {
   validateRoomNumber(roomNumberValue, capacityValue);
 });
 
-//отменить действие кнопки отправки формы по-умолчанию
+//функция обработки закрытия окна по ESC
+const escKeydownHandler = function (evt, target) {
+  const handler = function (event) {
+    if (event.keyCode === 27) {
+      target.remove();
+    }
+    document.removeEventListener(evt, handler);
+  }
+  return handler;
+}
+
+//функция обработки закрытия окна по нажатию кнопки мыши
+const mouseClickHandler = function (evt, target) {
+  const handler = function () {
+    target.remove();
+    document.removeEventListener(evt, handler);
+  }
+  return handler;
+}
+
+//функция обработки успешной отправки формы
+const doSuccessSentForm = function () {
+  const modalSuccess = document.querySelector(('#success')).content.querySelector('.success').cloneNode(true);
+  modalSuccess.style.zIndex = 1100;
+
+  //закрытие модального окна по нажатию на ESC
+  document.addEventListener('keydown', escKeydownHandler('keydown', modalSuccess));
+  document.addEventListener('click', mouseClickHandler('click', modalSuccess));
+}
+
+
+// //функция обработки сбоя при отправке формы
+const doErrorSentForm = function () {
+  const modalError = document.querySelector(('#error')).content.querySelector('.error').cloneNode(true);
+  adForm.appendChild(modalError);
+  modalError.style.zIndex = 1100;
+  document.addEventListener('keydown', escKeydownHandler('keydown', modalError));
+  document.addEventListener('click', mouseClickHandler('click', modalError));
+}
+
+//подписывание на отправку формы
 adForm.addEventListener('submit', (evt) => {
+  //отменить действие кнопки отправки формы по-умолчанию
   evt.preventDefault();
 
-  const formData = new FormData(evt.target);
-
-  fetch(
-    'https://22.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body: formData,
-    },
+  sendData(
+    doSuccessSentForm,
+    doErrorSentForm,
+    new FormData(evt.target),
   );
 });
-
