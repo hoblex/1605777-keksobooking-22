@@ -58,39 +58,38 @@ setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', '
 //Удаление маркера
 // mainPinMarker.remove();
 
-//cоздание маркера сообщения об ошибках
-const markerError = new L.marker([35.6895, 139.69171]);
-markerError.bindTooltip('Ошибка! Нет связи с сервером', {permanent: true, className: "error-marker-label", offset: [0, 0] });
+//функция генерации точек для объявлений
+const getBookingPoints = function (adObjectsList) {
+  const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
 
-fetch('https://22.javascript.paes.academy/keksobooking/data')
+  const points = adObjectsList.map(function (element) {
+    return new Object({lat: element.location.lat, lng: element.location.lng});
+  });
+
+  points.forEach(({lat, lng}, index) => {
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
+
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon,
+      },
+    );
+
+    marker
+      .addTo(map)
+      .bindPopup(bookingObjectsCardList[index], { keepInView: true});
+  });
+};
+
+fetch('https://22.javascript.pages.academy/keksobooking/data')
   .then((response) => response.json())
-  .then((adObjectsList) => {
-    const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
-
-    const points = adObjectsList.map(function (element) {
-      return new Object({lat: element.location.lat, lng: element.location.lng});
-    });
-
-    points.forEach(({lat, lng}, index) => {
-      const icon = L.icon({
-        iconUrl: 'img/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      });
-
-      const marker = L.marker(
-        {
-          lat,
-          lng,
-        },
-        {
-          icon,
-        },
-      );
-
-      marker
-        .addTo(map)
-        .bindPopup(bookingObjectsCardList[index], { keepInView: true});
-    });
-  })
+  .then((adObjectsList) => { getBookingPoints(adObjectsList) })
   .catch(() => showAlert('Ошибка загрузки данных с сервера'));
