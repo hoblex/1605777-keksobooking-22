@@ -1,4 +1,4 @@
-import {getRandomFloat, getRandomInteger} from './random-functions.js';
+import {getRandomFloat, getRandomInteger} from './util-functions.js';
 
 const IMG_ADDRESS = 'img/avatars/user';
 

@@ -91,9 +91,10 @@ const addDeleteOneElementClass = function (element, selector) {
   element.classList.toggle(selector) ;
 }
 
+const adForm = document.querySelector('.ad-form');
+
 //функция изменения состояния активности страницы формы
 export const changePageActiveState = function () {
-  const adForm = document.querySelector('.ad-form');
   addDeleteOneElementClass(adForm, 'ad-form--disabled');
 
   const adFormFieldsets = adForm.querySelectorAll('fieldset');
@@ -196,4 +197,18 @@ capacity.addEventListener('change', function(evt) {
   validateRoomNumber(roomNumberValue, capacityValue);
 });
 
+//отменить действие кнопки отправки формы по-умолчанию
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+
+  fetch(
+    'https://22.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      body: formData,
+    },
+  );
+});
 

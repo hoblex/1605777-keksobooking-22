@@ -3,6 +3,7 @@ import {changePageActiveState} from './form.js';
 import {adFormAddress} from './form.js';
 import {setDefaultAddress} from './form.js';
 import {getBookingObjectsCardList} from './popup.js';
+import {showAlert} from "./util-functions.js";
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
 const map = L.map('map-canvas')
@@ -61,7 +62,7 @@ setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', '
 const markerError = new L.marker([35.6895, 139.69171]);
 markerError.bindTooltip('Ошибка! Нет связи с сервером', {permanent: true, className: "error-marker-label", offset: [0, 0] });
 
-fetch('https://22.javascript.pages.academy/keksobooking/data')
+fetch('https://22.javascript.paes.academy/keksobooking/data')
   .then((response) => response.json())
   .then((adObjectsList) => {
     const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
@@ -92,4 +93,4 @@ fetch('https://22.javascript.pages.academy/keksobooking/data')
         .bindPopup(bookingObjectsCardList[index], { keepInView: true});
     });
   })
-  .catch(() => markerError.addTo(map));
+  .catch(() => showAlert('Ошибка загрузки данных с сервера'));
