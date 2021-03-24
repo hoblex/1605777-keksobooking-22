@@ -57,6 +57,10 @@ setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', '
 //Удаление маркера
 // mainPinMarker.remove();
 
+//cоздание маркера сообщения об ошибках
+const markerError = new L.marker([35.6895, 139.69171], { opacity: 0.01 }); //opacity may be set to zero
+markerError.bindTooltip('Ошибка! Нет связи с сервером', {permanent: true, className: "error-marker-label", offset: [0, 0] });
+
 fetch('https://22.javascript.pages.academy/keksobooking/data')
   .then((response) => response.json())
   .then((adObjectsList) => {
@@ -87,4 +91,5 @@ fetch('https://22.javascript.pages.academy/keksobooking/data')
         .addTo(map)
         .bindPopup(bookingObjectsCardList[index], { keepInView: true});
     });
-  });
+  })
+  .catch(() => markerError.addTo(map));
