@@ -102,17 +102,19 @@ export const changePageActiveState = function () {
 
   const adFormFieldsets = adForm.querySelectorAll('fieldset');
   changeDisabledState(adFormFieldsets);
+};
+changePageActiveState();
 
+//функция изменения состояния активности фильтра
+export const changeFilterActiveState = function () {
   const mapFilter = document.querySelector('.map__filters');
   addDeleteOneElementClass(mapFilter, 'map__filters--disabled');
-
   const mapFilterSelects = mapFilter.querySelectorAll('select');
   const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
   changeDisabledState(mapFilterSelects);
   changeDisabledState(mapFilterFieldsets);
-};
-
-changePageActiveState();
+}
+changeFilterActiveState();
 
 //адреса для заполнения координатами
 export const adFormAddress = document.querySelector('#address');

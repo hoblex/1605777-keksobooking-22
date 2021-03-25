@@ -1,5 +1,5 @@
 /* global L:readonly */
-import {adFormAddress, changePageActiveState} from './form.js';
+import {adFormAddress, changeFilterActiveState, changePageActiveState} from './form.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
 
@@ -100,4 +100,5 @@ const getBookingPoints = function (adObjectsList) {
 fetch('https://22.javascript.pages.academy/keksobooking/data')
   .then((response) => response.json())
   .then((adObjectsList) => { getBookingPoints(adObjectsList.slice(0, ADVERTISEMENTS_MAX_COUNT)) })
+  .then(() => changeFilterActiveState())
   .catch(() => showAlert('Ошибка загрузки данных с сервера'));
