@@ -11,4 +11,17 @@ export const changeFilterActiveState = function () {
   changeDisabledState(mapFilterSelects);
   changeDisabledState(mapFilterFieldsets);
 }
-changeFilterActiveState();
+// changeFilterActiveState();
+
+const housingType = adFilter.querySelector('#housing-type');
+
+
+const ADVERTISEMENTS_MAX_COUNT = 9;
+//функция обработки фильтра по типу жилья
+const housingTypeHandler = function (evt) {
+  fetch('https://22.javascript.pages.academy/keksobooking/data')
+    .then((response) => response.json())
+    .then((list) => console.log(list));
+  // getData(getBookingPoints, showAlert, ADVERTISEMENTS_MAX_COUNT);
+}
+housingType.addEventListener('change', housingTypeHandler);

@@ -3,6 +3,7 @@ import {adFormAddress, changePageActiveState} from './form.js';
 import {changeFilterActiveState} from './filter.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
+import {getData} from './api.js';
 
 export const MAP_CENTER = {
   lat: 35.6895,
@@ -68,9 +69,10 @@ setDefaultAddress(mainPinMarker);
 // mainPinMarker.remove();
 
 //функция генерации точек для объявлений
-const getBookingPoints = function (adObjectsList) {
+export const getBookingPoints = function (adObjectsList) {
   const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
 
+  //массив координат точек
   const points = adObjectsList.map(function (element) {
     return new Object({lat: element.location.lat, lng: element.location.lng});
   });
@@ -98,8 +100,9 @@ const getBookingPoints = function (adObjectsList) {
   });
 };
 
-fetch('https://22.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((adObjectsList) => { getBookingPoints(adObjectsList.slice(0, ADVERTISEMENTS_MAX_COUNT)) })
-  .then(() => changeFilterActiveState())
-  .catch(() => showAlert('Ошибка загрузки данных с сервера'));
+getData(getBookingPoints, showAlert, ADVERTISEMENTS_MAX_COUNT);
+// fetch('https://22.javascript.pages.academy/keksobooking/data')
+//   .then((response) => response.json())
+//   .then((adObjectsList) => { getBookingPoints(adObjectsList.slice(0, ADVERTISEMENTS_MAX_COUNT)) })
+//   .then(() => changeFilterActiveState())
+//   .catch(() => showAlert('Ошибка загрузки данных с сервера'));
