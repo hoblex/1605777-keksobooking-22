@@ -1,4 +1,6 @@
 import {TYPES} from './data.js';
+import {sendData} from './api.js';
+import {addMainPinMarkerToMap} from './map.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -91,9 +93,10 @@ const addDeleteOneElementClass = function (element, selector) {
   element.classList.toggle(selector) ;
 }
 
+const adForm = document.querySelector('.ad-form');
+
 //функция изменения состояния активности страницы формы
 export const changePageActiveState = function () {
-  const adForm = document.querySelector('.ad-form');
   addDeleteOneElementClass(adForm, 'ad-form--disabled');
 
   const adFormFieldsets = adForm.querySelectorAll('fieldset');
@@ -115,11 +118,6 @@ export const adFormAddress = document.querySelector('#address');
 
 //запрет ввода данных в строку адреса с клавиатуры
 adFormAddress.setAttribute('readonly','true');
-
-//функция установка значения по-умолчанию в пола ввода адреса
-export const setDefaultAddress = function (element, value) {
-  element.value = value;
-}
 
 //валидация заголовка в форме ввода данных объявления
 const adTitle = document.querySelector('#title');
@@ -196,4 +194,60 @@ capacity.addEventListener('change', function(evt) {
   validateRoomNumber(roomNumberValue, capacityValue);
 });
 
+//функция обработки закрытия окна по ESC
+const escKeydownHandler = function (evt, target) {
+  const handler = function (event) {
+    if (event.keyCode === 27) {
+      target.remove();
+    }
+    document.removeEventListener(evt, handler);
+  }
+  return handler;
+}
 
+//функция обработки закрытия окна по нажатию кнопки мыши
+const mouseClickHandler = function (evt, target) {
+  const handler = function () {
+    target.remove();
+    document.removeEventListener(evt, handler);
+  }
+  return handler;
+}
+
+//функция сброса данных формы
+const resetForm = function () {
+  adTitle.value = '';
+  adForm.reset();
+}
+
+//функция обработки успешной отправки формы
+const doSuccessSentForm = function () {
+  const modalSuccess = document.querySelector(('#success')).content.querySelector('.success').cloneNode(true);
+  adForm.appendChild(modalSuccess);
+  modalSuccess.style.zIndex = 1100;
+  resetForm();
+  //закрытие модального окна по нажатию на ESC
+  document.addEventListener('keydown', escKeydownHandler('keydown', modalSuccess));
+  document.addEventListener('click', mouseClickHandler('click', modalSuccess));
+}
+
+//функция обработки сбоя при отправке формы
+const doErrorSentForm = function () {
+  const modalError = document.querySelector(('#error')).content.querySelector('.error').cloneNode(true);
+  adForm.appendChild(modalError);
+  modalError.style.zIndex = 1100;
+  document.addEventListener('keydown', escKeydownHandler('keydown', modalError));
+  document.addEventListener('click', mouseClickHandler('click', modalError));
+}
+
+//подписывание на отправку формы
+adForm.addEventListener('submit', (evt) => {
+  //отменить действие кнопки отправки формы по-умолчанию
+  evt.preventDefault();
+
+  sendData(
+    doSuccessSentForm,
+    doErrorSentForm,
+    new FormData(evt.target),
+  );
+});

@@ -1,8 +1,9 @@
 /* global L:readonly */
 import {changePageActiveState} from './form.js';
 import {adFormAddress} from './form.js';
-import {setDefaultAddress} from './form.js';
-import {bookingObjectsList, bookingObjectsCardList} from './popup.js';
+// import {setDefaultAddress} from './form.js';
+import {getBookingObjectsCardList} from './popup.js';
+import {showAlert} from './util-functions.js';
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
 const map = L.map('map-canvas')
@@ -12,7 +13,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: 35.6895,
     lng: 139.69171,
-  }, 12);
+  }, 10);
 
 
 //добавление описания карты
@@ -44,7 +45,10 @@ const mainPinMarker = L.marker(
 );
 
 //добавление маркера на карту
-mainPinMarker.addTo(map);
+export const addMainPinMarkerToMap = function () {
+  mainPinMarker.addTo(map)
+};
+addMainPinMarkerToMap();
 
 //обработка координат хвоста маркера
 mainPinMarker.on('drag', (evt) => {
@@ -52,34 +56,47 @@ mainPinMarker.on('drag', (evt) => {
   adFormAddress.value = evt.target.getLatLng().lat.toFixed(5) + ', ' + evt.target.getLatLng().lng.toFixed(5);
 });
 
+//функция установка значения по-умолчанию в пола ввода адреса
+export const setDefaultAddress = function (element, value) {
+  element.value = value;
+}
 setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', ' + mainPinMarker.getLatLng().lng.toFixed(5));
 
 //Удаление маркера
 // mainPinMarker.remove();
 
-//создание массива точек расположения объявлений
-const points = bookingObjectsList.map(function (element) {
-  return new Object({lat: element.objectLocation.x, lng: element.objectLocation.y});
-});
+//функция генерации точек для объявлений
+const getBookingPoints = function (adObjectsList) {
+  const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
 
-points.forEach(({lat, lng}, index) => {
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+  const points = adObjectsList.map(function (element) {
+    return new Object({lat: element.location.lat, lng: element.location.lng});
   });
 
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
+  points.forEach(({lat, lng}, index) => {
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+    });
 
-  marker
-    .addTo(map)
-    .bindPopup(bookingObjectsCardList[index], { keepInView: true});
-});
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon,
+      },
+    );
+
+    marker
+      .addTo(map)
+      .bindPopup(bookingObjectsCardList[index], { keepInView: true});
+  });
+};
+
+fetch('https://22.javascript.pages.academy/keksobooking/data')
+  .then((response) => response.json())
+  .then((adObjectsList) => { getBookingPoints(adObjectsList) })
+  .catch(() => showAlert('Ошибка загрузки данных с сервера'));
