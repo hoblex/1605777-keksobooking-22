@@ -1,6 +1,6 @@
 import {TYPES} from './data.js';
 import {sendData} from './api.js';
-import {addMainPinMarkerToMap} from './map.js';
+import {setDefaultAddress, MAP_CENTER, mainPinMarker} from './map.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -214,10 +214,12 @@ const mouseClickHandler = function (evt, target) {
   return handler;
 }
 
-//функция сброса данных формы
+//функция сброса введенных в форму значений в значения по-умолчанию
+//главный маркер возвращается в исходное состояние
 const resetForm = function () {
-  adTitle.value = '';
   adForm.reset();
+  mainPinMarker.setLatLng(MAP_CENTER);
+  setDefaultAddress(mainPinMarker);
 }
 
 //функция обработки успешной отправки формы
@@ -230,6 +232,14 @@ const doSuccessSentForm = function () {
   document.addEventListener('keydown', escKeydownHandler('keydown', modalSuccess));
   document.addEventListener('click', mouseClickHandler('click', modalSuccess));
 }
+
+
+//обработка кнопки сброса формы в начальное состояние
+const resetFormButton = adForm.querySelector('.ad-form__reset');
+resetFormButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+})
 
 //функция обработки сбоя при отправке формы
 const doErrorSentForm = function () {

@@ -1,19 +1,20 @@
 /* global L:readonly */
 import {changePageActiveState} from './form.js';
 import {adFormAddress} from './form.js';
-// import {setDefaultAddress} from './form.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
+
+export const MAP_CENTER = {
+  lat: 35.6895,
+  lng: 139.69171,
+}
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
 const map = L.map('map-canvas')
   .on('load', () => {
     changePageActiveState();
   })
-  .setView({
-    lat: 35.6895,
-    lng: 139.69171,
-  }, 10);
+  .setView(MAP_CENTER, 10);
 
 
 //добавление описания карты
@@ -24,31 +25,30 @@ L.tileLayer(
   },
 ).addTo(map);
 
+//функция описания и создания главного маркера на карте
+const createMainPinMarker = function (coordinates) {
+  const mainPinIcon = L.icon({
+    iconUrl: 'img/main-pin.svg',
+    iconSize: [52, 52],
+    iconAnchor: [26, 52],
+  });
 
-//описание иконки маркера
-const mainPinIcon = L.icon({
-  iconUrl: 'img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
-});
-
-//описание маркера
-const mainPinMarker = L.marker(
-  {
-    lat: 35.6895,
-    lng: 139.69171,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-);
+  const newMarker = L.marker(
+    coordinates,
+    {
+      draggable: true,
+      icon: mainPinIcon,
+    },
+  );
+  return newMarker;
+}
+export const mainPinMarker = createMainPinMarker(MAP_CENTER);
 
 //добавление маркера на карту
-export const addMainPinMarkerToMap = function () {
-  mainPinMarker.addTo(map)
+export const addMainPinMarkerToMap = function (marker) {
+  marker.addTo(map);
 };
-addMainPinMarkerToMap();
+addMainPinMarkerToMap(mainPinMarker);
 
 //обработка координат хвоста маркера
 mainPinMarker.on('drag', (evt) => {
@@ -57,10 +57,10 @@ mainPinMarker.on('drag', (evt) => {
 });
 
 //функция установка значения по-умолчанию в пола ввода адреса
-export const setDefaultAddress = function (element, value) {
-  element.value = value;
+export const setDefaultAddress = function (marker) {
+  adFormAddress.value = marker.getLatLng().lat.toFixed(5) + ', ' + marker.getLatLng().lng.toFixed(5);
 }
-setDefaultAddress(adFormAddress, mainPinMarker.getLatLng().lat.toFixed(5) + ', ' + mainPinMarker.getLatLng().lng.toFixed(5));
+setDefaultAddress(mainPinMarker);
 
 //Удаление маркера
 // mainPinMarker.remove();
