@@ -1,5 +1,5 @@
 import {addDeleteOneElementClass, changeDisabledState} from './util-functions.js';
-import {markers, map} from './map.js';
+import {markers, map, getBookingPoints} from './map.js';
 
 export const adFilter = document.querySelector('.map__filters');
 
@@ -24,9 +24,10 @@ const housingTypeHandler = function (evt) {
     map.removeLayer(element);
   });
 
-  // fetch('https://22.javascript.pages.academy/keksobooking/data')
-  //   .then((response) => response.json())
-  //   .then((list) => console.log(list));
-  // getData(getBookingPoints, showAlert, ADVERTISEMENTS_MAX_COUNT);
+  fetch('https://22.javascript.pages.academy/keksobooking/data')
+    .then((response) => response.json())
+    .then((adObjectsList) => getBookingPoints(adObjectsList.filter(function(element) {
+      return element.offer.type === evt.target.value;
+    })));
 }
 housingType.addEventListener('change', housingTypeHandler);
