@@ -13,7 +13,7 @@ export const MAP_CENTER = {
 const ADVERTISEMENTS_MAX_COUNT = 10;
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
-const map = L.map('map-canvas')
+export const map = L.map('map-canvas')
   .on('load', () => {
     changePageActiveState();
   })
@@ -68,6 +68,8 @@ setDefaultAddress(mainPinMarker);
 //Удаление маркера
 // mainPinMarker.remove();
 
+//динамический массив меток на карте
+export let markers = [];
 //функция генерации точек для объявлений
 export const getBookingPoints = function (adObjectsList) {
   const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
@@ -97,6 +99,7 @@ export const getBookingPoints = function (adObjectsList) {
     marker
       .addTo(map)
       .bindPopup(bookingObjectsCardList[index], { keepInView: true});
+    markers.push(marker);
   });
 };
 
