@@ -24,3 +24,15 @@ export const showAlert = (message) => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 }
+
+//функция добавления/удаления элементам коллекции атрибута disabled
+export const changeDisabledState = function (elementsList) {
+  for (let element of elementsList) {
+    element.disabled = !element.disabled ;
+  }
+}
+
+//функции добавления/удаления селектора у элемента
+export const addDeleteOneElementClass = function (element, selector) {
+  element.classList.toggle(selector) ;
+}

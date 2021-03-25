@@ -2,6 +2,7 @@ import {TYPES} from './data.js';
 import {sendData} from './api.js';
 import {setDefaultAddress, MAP_CENTER, mainPinMarker} from './map.js';
 import {adFilter} from './filter.js';
+import {addDeleteOneElementClass, changeDisabledState} from './util-functions.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -82,17 +83,6 @@ const checkTimeSelectHandler = function (evt) {
 checkinTime.addEventListener('change', checkTimeSelectHandler.bind(checkoutTime));
 checkoutTime.addEventListener('change', checkTimeSelectHandler.bind(checkinTime));
 
-//функция добавления/удаления элементам коллекции атрибута disabled
-const changeDisabledState = function (elementsList) {
-  for (let element of elementsList) {
-    element.disabled = !element.disabled ;
-  }
-}
-
-//функции добавления/удаления селектора у элемента
-const addDeleteOneElementClass = function (element, selector) {
-  element.classList.toggle(selector) ;
-}
 
 const adForm = document.querySelector('.ad-form');
 
@@ -104,17 +94,6 @@ export const changePageActiveState = function () {
   changeDisabledState(adFormFieldsets);
 };
 changePageActiveState();
-
-//функция изменения состояния активности фильтра
-export const changeFilterActiveState = function () {
-  const mapFilter = document.querySelector('.map__filters');
-  addDeleteOneElementClass(mapFilter, 'map__filters--disabled');
-  const mapFilterSelects = mapFilter.querySelectorAll('select');
-  const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
-  changeDisabledState(mapFilterSelects);
-  changeDisabledState(mapFilterFieldsets);
-}
-changeFilterActiveState();
 
 //адреса для заполнения координатами
 export const adFormAddress = document.querySelector('#address');

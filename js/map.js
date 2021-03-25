@@ -1,5 +1,6 @@
 /* global L:readonly */
-import {adFormAddress, changeFilterActiveState, changePageActiveState} from './form.js';
+import {adFormAddress, changePageActiveState} from './form.js';
+import {changeFilterActiveState} from './filter.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
 
