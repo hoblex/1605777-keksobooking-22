@@ -1,6 +1,5 @@
 /* global L:readonly */
-import {changePageActiveState} from './form.js';
-import {adFormAddress} from './form.js';
+import {adFormAddress, changePageActiveState} from './form.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
 
@@ -35,14 +34,13 @@ const createMainPinMarker = function (coordinates) {
     iconAnchor: [26, 52],
   });
 
-  const newMarker = L.marker(
+  return L.marker(
     coordinates,
     {
       draggable: true,
       icon: mainPinIcon,
     },
   );
-  return newMarker;
 }
 export const mainPinMarker = createMainPinMarker(MAP_CENTER);
 
