@@ -1,7 +1,7 @@
 import {TYPES} from './data.js';
 import {sendData} from './api.js';
 import {setDefaultAddress, MAP_CENTER, mainPinMarker} from './map.js';
-import {adFilter} from "./filter.js";
+import {adFilter} from './filter.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
