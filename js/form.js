@@ -1,6 +1,7 @@
 import {TYPES} from './data.js';
 import {sendData} from './api.js';
 import {setDefaultAddress, MAP_CENTER, mainPinMarker} from './map.js';
+import {adFilter} from "./filter.js";
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -218,6 +219,7 @@ const mouseClickHandler = function (evt, target) {
 //главный маркер возвращается в исходное состояние
 const resetForm = function () {
   adForm.reset();
+  adFilter.reset();
   mainPinMarker.setLatLng(MAP_CENTER);
   setDefaultAddress(mainPinMarker);
 }
