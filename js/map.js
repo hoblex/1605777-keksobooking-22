@@ -34,13 +34,14 @@ const createMainPinMarker = function (coordinates) {
     iconAnchor: [26, 52],
   });
 
-  return L.marker(
+  const newMarker = L.marker(
     coordinates,
     {
       draggable: true,
       icon: mainPinIcon,
     },
   );
+  return newMarker;
 }
 export const mainPinMarker = createMainPinMarker(MAP_CENTER);
 

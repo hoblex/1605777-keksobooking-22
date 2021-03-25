@@ -246,10 +246,12 @@ resetFormButton.addEventListener('click', (evt) => {
 //функция обработки сбоя при отправке формы
 const doErrorSentForm = function () {
   const modalError = document.querySelector(('#error')).content.querySelector('.error').cloneNode(true);
+  const modalErrorButton = modalError.querySelector('.error__button');
   adForm.appendChild(modalError);
   modalError.style.zIndex = 1100;
   document.addEventListener('keydown', escKeydownHandler('keydown', modalError));
   document.addEventListener('click', mouseClickHandler('click', modalError));
+  modalErrorButton.addEventListener('click', mouseClickHandler('click', modalError));
 }
 
 //подписывание на отправку формы
