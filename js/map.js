@@ -67,8 +67,9 @@ setDefaultAddress(mainPinMarker);
 
 
 //динамический массив меток на карте
-export let markers = [];
-export let adObjectsList;
+export const markers = [];
+
+export const adObjectsList = [];
 
 //функция генерации точек для объявлений
 export const getBookingPoints = function (adList) {
@@ -102,8 +103,8 @@ export const getBookingPoints = function (adList) {
   });
 };
 
-export const handleData = function(adList) {
-  adObjectsList = adList;
+export const handleData = function (adList) {
+  adList.forEach((add) => adObjectsList.push(add));
   getBookingPoints(adList);
   enableFilterActiveState();
 }
