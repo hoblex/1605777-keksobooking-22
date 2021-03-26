@@ -10,7 +10,7 @@ export const MAP_CENTER = {
   lng: 139.69171,
 }
 
-const ADVERTISEMENTS_MAX_COUNT = 10;
+export const ADVERTISEMENTS_MAX_COUNT = 10;
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
 export const map = L.map('map-canvas')
@@ -104,8 +104,3 @@ export const getBookingPoints = function (adObjectsList) {
 };
 
 getData(getBookingPoints, showAlert, ADVERTISEMENTS_MAX_COUNT);
-// fetch('https://22.javascript.pages.academy/keksobooking/data')
-//   .then((response) => response.json())
-//   .then((adObjectsList) => { getBookingPoints(adObjectsList.slice(0, ADVERTISEMENTS_MAX_COUNT)) })
-//   .then(() => changeFilterActiveState())
-//   .catch(() => showAlert('Ошибка загрузки данных с сервера'));
