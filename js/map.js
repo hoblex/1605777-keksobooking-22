@@ -102,7 +102,7 @@ export const getBookingPoints = function (adList) {
   });
 };
 
-const handleData = function(adList) {
+export const handleData = function(adList) {
   adObjectsList = adList;
   getBookingPoints(adList);
   enableFilterActiveState();

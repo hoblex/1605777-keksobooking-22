@@ -1,8 +1,8 @@
 import {TYPES} from './data.js';
-import {sendData} from './api.js';
-import {setDefaultAddress, MAP_CENTER, mainPinMarker} from './map.js';
+import {getData, sendData} from './api.js';
+import {setDefaultAddress, MAP_CENTER, mainPinMarker, handleData, ADVERTISEMENTS_MAX_COUNT} from './map.js';
 import {adFilter} from './filter.js';
-import {addDeleteOneElementClass, changeDisabledState} from './util-functions.js';
+import {addDeleteOneElementClass, changeDisabledState, showAlert} from './util-functions.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -203,6 +203,7 @@ const resetForm = function () {
   adFilter.reset();
   mainPinMarker.setLatLng(MAP_CENTER);
   setDefaultAddress(mainPinMarker);
+  getData(handleData, showAlert, ADVERTISEMENTS_MAX_COUNT);
 }
 
 //функция обработки успешной отправки формы
