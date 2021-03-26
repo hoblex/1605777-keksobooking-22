@@ -1,7 +1,5 @@
 /* global _:readonly */
-import {addDeleteOneElementClass, changeDisabledState, showAlert} from './util-functions.js';
-import {markers, map, getBookingPoints, ADVERTISEMENTS_MAX_COUNT} from './map.js';
-import {getData} from './api.js';
+import {adObjectsList, getBookingPoints, map, markers} from './map.js';
 
 export const adFilter = document.querySelector('.map__filters');
 const housingType = adFilter.querySelector('#housing-type');
@@ -10,14 +8,31 @@ const housingRooms = adFilter.querySelector('#housing-rooms');
 const housingGuests = adFilter.querySelector('#housing-guests');
 const housingFeaturesContainer = adFilter.querySelector('#housing-features');
 
-export const changeFilterActiveState = function () {
-  const mapFilter = document.querySelector('.map__filters');
-  addDeleteOneElementClass(mapFilter, 'map__filters--disabled');
-  const mapFilterSelects = mapFilter.querySelectorAll('select');
-  const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
-  changeDisabledState(mapFilterSelects);
-  changeDisabledState(mapFilterFieldsets);
+const mapFilter = document.querySelector('.map__filters');
+const mapFilterSelects = mapFilter.querySelectorAll('select');
+const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
+
+export const disableFilterActiveState = function () {
+  mapFilter.classList.add('map__filters--disabled');
+  for (let element of mapFilterSelects) {
+    element.disabled = true;
+  }
+  for (let element of mapFilterFieldsets) {
+    element.disabled = true;
+  }
 }
+// disableFilterActiveState();
+
+export const enableFilterActiveState = function () {
+  mapFilter.classList.add('map__filters--disabled');
+  for (let element of mapFilterSelects) {
+    element.disabled = true;
+  }
+  for (let element of mapFilterFieldsets) {
+    element.disabled = true;
+  }
+}
+
 // changeFilterActiveState();
 
 //объект для хранения выбранных в фильтре свойств. по-умолчанию значения не выбраны
@@ -26,9 +41,9 @@ const filterValues = {
   price: 'any',
   rooms: 'any',
   guests: 'any',
-  selectedFeatures : {
-    wifi : false,
-    dishwasher : false,
+  selectedFeatures: {
+    wifi: false,
+    dishwasher: false,
     parking: false,
     washer: false,
     elevator: false,
@@ -66,11 +81,11 @@ const doPriceConvert = function (alias, price) {
 //функция подбора объявлений по features
 const compareFeatures = function (featuresList, adFeaturesArray) {
   let featuresExist = Boolean(true);
-  if(adFeaturesArray.length === 0) {
+  if (adFeaturesArray.length === 0) {
     featuresExist = false;
   }
   for (let item in featuresList) {
-    if(featuresList[item]){
+    if (featuresList[item]) {
       featuresExist = featuresExist && adFeaturesArray.some((element) => `${item}` === element);
     }
   }
@@ -79,24 +94,32 @@ const compareFeatures = function (featuresList, adFeaturesArray) {
 
 //функция обработки фильтра
 const filterBookingPoints = function (evt, storageValues, prop) {
-  markers.forEach(function(element) {
+  markers.forEach(function (element) {
     map.removeLayer(element);
   });
 
-  if(prop !== 'features') {
+  if (prop !== 'features') {
     storageValues[prop] = evt.target.value;
   } else {
     storageValues.selectedFeatures[evt.target.value] = evt.target.checked;
   }
 
-  return function (adObjectsList) {
-    getBookingPoints(adObjectsList
-      .filter(function(element) { return (storageValues['type'] !== 'any') ? (`${element.offer['type']}` === `${storageValues['type']}`) : true; })
-      .filter(function(element) { return (storageValues['price'] !== 'any') ? (doPriceConvert(storageValues['price'], element.offer['price'])) : true; })
-      .filter(function(element) { return (storageValues['rooms'] !== 'any') ? (`${element.offer['rooms']}` === `${storageValues['rooms']}`) : true; })
-      .filter(function(element) { return (storageValues['guests'] !== 'any') ? (`${element.offer['guests']}` === `${storageValues['guests']}`) : true; })
-      .filter(function(element) { return (getSelectedFeaturesSumma(storageValues.selectedFeatures)) ? (compareFeatures(storageValues.selectedFeatures, element.offer.features)) : true}));
-  }
+  getBookingPoints(adObjectsList
+    .filter(function (element) {
+      return (storageValues['type'] !== 'any') ? (`${element.offer['type']}` === `${storageValues['type']}`) : true;
+    })
+    .filter(function (element) {
+      return (storageValues['price'] !== 'any') ? (doPriceConvert(storageValues['price'], element.offer['price'])) : true;
+    })
+    .filter(function (element) {
+      return (storageValues['rooms'] !== 'any') ? (`${element.offer['rooms']}` === `${storageValues['rooms']}`) : true;
+    })
+    .filter(function (element) {
+      return (storageValues['guests'] !== 'any') ? (`${element.offer['guests']}` === `${storageValues['guests']}`) : true;
+    })
+    .filter(function (element) {
+      return (getSelectedFeaturesSumma(storageValues.selectedFeatures)) ? (compareFeatures(storageValues.selectedFeatures, element.offer.features)) : true
+    }));
 }
 
 const RERENDER_DELAY = 500;
@@ -104,7 +127,7 @@ const RERENDER_DELAY = 500;
 const housingFilterHandler = function (event, storageObject, prop) {
   return function (event) {
     //функция фильтрации получаемых с сервера данных
-    getData(filterBookingPoints(event, storageObject, prop), showAlert, ADVERTISEMENTS_MAX_COUNT);
+    filterBookingPoints(event, storageObject, prop);
   }
 };
 

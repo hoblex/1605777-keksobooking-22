@@ -1,6 +1,6 @@
 /* global L:readonly */
 import {adFormAddress, changePageActiveState} from './form.js';
-import {changeFilterActiveState} from './filter.js';
+import {enableFilterActiveState} from './filter.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
 import {getData} from './api.js';
@@ -70,12 +70,13 @@ setDefaultAddress(mainPinMarker);
 
 //динамический массив меток на карте
 export let markers = [];
-//функция генерации точек для объявлений
-export const getBookingPoints = function (adObjectsList) {
-  const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
+export let adObjectsList;
 
+//функция генерации точек для объявлений
+export const getBookingPoints = function (adList) {
+  const bookingObjectsCardList = getBookingObjectsCardList(adList);
   //массив координат точек
-  const points = adObjectsList.map(function (element) {
+  const points = adList.map(function (element) {
     return new Object({lat: element.location.lat, lng: element.location.lng});
   });
 
@@ -103,4 +104,9 @@ export const getBookingPoints = function (adObjectsList) {
   });
 };
 
-getData(getBookingPoints, showAlert, ADVERTISEMENTS_MAX_COUNT);
+const handleData = function(adList) {
+  adObjectsList = adList;
+  getBookingPoints(adList);
+}
+
+getData(handleData, showAlert, ADVERTISEMENTS_MAX_COUNT);
