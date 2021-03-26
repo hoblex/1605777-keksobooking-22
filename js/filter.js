@@ -108,9 +108,9 @@ const housingFilterHandler = function (event, storageObject, prop) {
   }
 };
 
-housingType.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'type'),RERENDER_DELAY));
-housingPrice.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'price'),RERENDER_DELAY));
-housingRooms.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'rooms'),RERENDER_DELAY));
-housingGuests.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'guests'),RERENDER_DELAY));
-housingFeaturesContainer.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'features'),RERENDER_DELAY));
+housingType.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'type'), RERENDER_DELAY));
+housingPrice.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'price'), RERENDER_DELAY));
+housingRooms.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'rooms'), RERENDER_DELAY));
+housingGuests.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'guests'), RERENDER_DELAY));
+housingFeaturesContainer.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'features'), RERENDER_DELAY));
 

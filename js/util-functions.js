@@ -4,7 +4,7 @@ export const getRandomInteger = (beginNumber, endNumber) => Math.round(Math.rand
 
 export const getRandomFloat = (beginNumber, endNumber, numbersAfterPoint) => (Math.random() * (endNumber - beginNumber) + beginNumber).toFixed(numbersAfterPoint);
 
-export const showAlert = (message) => {
+export const showAlert = function () {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 1100;
   alertContainer.style.position = 'fixed';
@@ -16,7 +16,7 @@ export const showAlert = (message) => {
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'red';
 
-  alertContainer.textContent = message;
+  alertContainer.textContent = 'Сбой загрузки данных с сервера';
 
   document.body.append(alertContainer);
 
