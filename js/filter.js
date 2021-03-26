@@ -21,18 +21,18 @@ export const disableFilterActiveState = function () {
     element.disabled = true;
   }
 }
-// disableFilterActiveState();
+disableFilterActiveState();
 
 export const enableFilterActiveState = function () {
-  mapFilter.classList.add('map__filters--disabled');
+  mapFilter.classList.remove('map__filters--disabled');
   for (let element of mapFilterSelects) {
-    element.disabled = true;
+    element.disabled = false;
   }
   for (let element of mapFilterFieldsets) {
-    element.disabled = true;
+    element.disabled = false;
   }
 }
-
+// enableFilterActiveState();
 // changeFilterActiveState();
 
 //объект для хранения выбранных в фильтре свойств. по-умолчанию значения не выбраны

@@ -65,8 +65,6 @@ export const setDefaultAddress = function (marker) {
 }
 setDefaultAddress(mainPinMarker);
 
-//Удаление маркера
-// mainPinMarker.remove();
 
 //динамический массив меток на карте
 export let markers = [];
@@ -107,6 +105,7 @@ export const getBookingPoints = function (adList) {
 const handleData = function(adList) {
   adObjectsList = adList;
   getBookingPoints(adList);
+  enableFilterActiveState();
 }
 
 getData(handleData, showAlert, ADVERTISEMENTS_MAX_COUNT);
