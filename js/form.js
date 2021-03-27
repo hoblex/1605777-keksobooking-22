@@ -1,8 +1,8 @@
-import {TYPES} from './data.js';
 import {getData, sendData} from './api.js';
 import {setDefaultAddress, MAP_CENTER, mainPinMarker, handleData, ADVERTISEMENTS_MAX_COUNT} from './map.js';
 import {adFilter} from './filter.js';
 import {addDeleteOneElementClass, changeDisabledState, showAlert} from './util-functions.js';
+import {TYPES} from './popup.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -14,9 +14,9 @@ const TYPES_MIN_PRICES = {
 
 const TYPES_MAX_PRICE = '1000000';
 
-const AD_TITLE_LENGTH = {
-  min: '30',
-  max: '100',
+const AdTitleLength = {
+  MIN: '30',
+  MAX: '100',
 }
 
 //Поиск элемента выбора типа жилья из формы
@@ -103,15 +103,15 @@ adFormAddress.setAttribute('readonly','true');
 
 //валидация заголовка в форме ввода данных объявления
 const adTitle = document.querySelector('#title');
-adTitle.setAttribute('minlength', AD_TITLE_LENGTH.min)
-adTitle.setAttribute('maxlength', AD_TITLE_LENGTH.max)
+adTitle.setAttribute('minlength', AdTitleLength.MIN)
+adTitle.setAttribute('maxlength', AdTitleLength.MAX)
 
 adTitle.addEventListener('input', function(evt) {
   const valueLength = evt.target.value.length;
-  if (valueLength < AD_TITLE_LENGTH.min) {
-    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
-  } else if (valueLength > AD_TITLE_LENGTH.max) {
-    adTitle.setCustomValidity(`Максимальная длина поля 100 симв. Удалите лишние ${valueLength - AD_TITLE_LENGTH.max} симв.`)
+  if (valueLength < AdTitleLength.MIN) {
+    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AdTitleLength.MIN - valueLength} симв.`);
+  } else if (valueLength > AdTitleLength.MAX) {
+    adTitle.setCustomValidity(`Максимальная длина поля 100 симв. Удалите лишние ${valueLength - AdTitleLength.MAX} симв.`)
   } else {
     adTitle.setCustomValidity('')
   }
@@ -122,7 +122,7 @@ adTitle.addEventListener('input', function(evt) {
 adTitle.addEventListener('invalid', function (evt) {
   const valueLength = evt.target.value.length;
   if (valueLength === 0) {
-    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AD_TITLE_LENGTH.min - valueLength} симв.`);
+    adTitle.setCustomValidity(`Минимальная длина поля 30 симв. Введите еще ${AdTitleLength.MIN - valueLength} симв.`);
   }
 });
 

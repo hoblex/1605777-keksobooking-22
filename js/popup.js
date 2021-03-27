@@ -1,4 +1,9 @@
-import {TYPES} from './data.js';
+export const TYPES = {
+  palace : 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+};
 
 const POPUP_FEATURE_BLOCK_CLASS = 'popup__feature';
 

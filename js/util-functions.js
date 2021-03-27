@@ -1,9 +1,5 @@
 const ALERT_SHOW_TIME = 10000;
 
-export const getRandomInteger = (beginNumber, endNumber) => Math.round(Math.random() * (endNumber - beginNumber)) + beginNumber;
-
-export const getRandomFloat = (beginNumber, endNumber, numbersAfterPoint) => (Math.random() * (endNumber - beginNumber) + beginNumber).toFixed(numbersAfterPoint);
-
 export const showAlert = function () {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '1100';
