@@ -1,17 +1,19 @@
 /* global L:readonly */
 import {adFormAddress, changePageActiveState} from './form.js';
+import {enableFilterActiveState} from './filter.js';
 import {getBookingObjectsCardList} from './popup.js';
 import {showAlert} from './util-functions.js';
+import {getData} from './api.js';
 
 export const MAP_CENTER = {
   lat: 35.6895,
   lng: 139.69171,
 }
 
-const ADVERTISEMENTS_MAX_COUNT = 10;
+export const ADVERTISEMENTS_MAX_COUNT = 10;
 
 //добавление карты в канвас с указанием координат цента по-умолчанию
-const map = L.map('map-canvas')
+export const map = L.map('map-canvas')
   .on('load', () => {
     changePageActiveState();
   })
@@ -63,14 +65,17 @@ export const setDefaultAddress = function (marker) {
 }
 setDefaultAddress(mainPinMarker);
 
-//Удаление маркера
-// mainPinMarker.remove();
+
+//динамический массив меток на карте
+export const markers = [];
+
+export const adObjectsList = [];
 
 //функция генерации точек для объявлений
-const getBookingPoints = function (adObjectsList) {
-  const bookingObjectsCardList = getBookingObjectsCardList(adObjectsList);
-
-  const points = adObjectsList.map(function (element) {
+export const getBookingPoints = function (adList) {
+  const bookingObjectsCardList = getBookingObjectsCardList(adList);
+  //массив координат точек
+  const points = adList.map(function (element) {
     return new Object({lat: element.location.lat, lng: element.location.lng});
   });
 
@@ -94,10 +99,14 @@ const getBookingPoints = function (adObjectsList) {
     marker
       .addTo(map)
       .bindPopup(bookingObjectsCardList[index], { keepInView: true});
+    markers.push(marker);
   });
 };
 
-fetch('https://22.javascript.pages.academy/keksobooking/data')
-  .then((response) => response.json())
-  .then((adObjectsList) => { getBookingPoints(adObjectsList.slice(0, ADVERTISEMENTS_MAX_COUNT)) })
-  .catch(() => showAlert('Ошибка загрузки данных с сервера'));
+export const handleData = function (adList) {
+  adList.forEach((add) => adObjectsList.push(add));
+  getBookingPoints(adList);
+  enableFilterActiveState();
+}
+
+getData(handleData, showAlert, ADVERTISEMENTS_MAX_COUNT);
