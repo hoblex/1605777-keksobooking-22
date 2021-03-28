@@ -56,12 +56,12 @@ addMainPinMarkerToMap(mainPinMarker);
 //обработка координат хвоста маркера
 mainPinMarker.on('drag', (evt) => {
   //добавление автоматического заполнения адреса  в объявлении координатами главной метки
-  adFormAddress.value = evt.target.getLatLng().lat.toFixed(5) + ', ' + evt.target.getLatLng().lng.toFixed(5);
+  adFormAddress.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
 //функция установка значения по-умолчанию в пола ввода адреса
 export const setDefaultAddress = function (marker) {
-  adFormAddress.value = marker.getLatLng().lat.toFixed(5) + ', ' + marker.getLatLng().lng.toFixed(5);
+  adFormAddress.value = `${marker.getLatLng().lat.toFixed(5)}, ${ marker.getLatLng().lng.toFixed(5)}`;
 }
 setDefaultAddress(mainPinMarker);
 
