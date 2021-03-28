@@ -3,6 +3,7 @@ import {setDefaultAddress, MAP_CENTER, mainPinMarker, handleData, ADVERTISEMENTS
 import {adFilter} from './filter.js';
 import {addDeleteOneElementClass, changeDisabledState, showAlert} from './util-functions.js';
 import {TYPES} from './popup.js';
+import {resetFileAvatarChooser, resetFileAccomodationChooser} from './previews.js';
 
 //Объект для хранения минимальной стоимости жилья
 const TYPES_MIN_PRICES = {
@@ -204,6 +205,8 @@ const resetForm = function () {
   mainPinMarker.setLatLng(MAP_CENTER);
   setDefaultAddress(mainPinMarker);
   getData(handleData, showAlert, ADVERTISEMENTS_MAX_COUNT);
+  resetFileAvatarChooser();
+  resetFileAccomodationChooser();
 }
 
 //функция обработки успешной отправки формы

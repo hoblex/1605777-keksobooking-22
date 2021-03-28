@@ -22,6 +22,10 @@ fileAvatarChooser.addEventListener('change', () => {
   }
 });
 
+export const resetFileAvatarChooser = function () {
+  previewAvatar.src = 'img/muffin-grey.svg';
+}
+
 fileAccomodationChooser.addEventListener('change', () => {
   const file = fileAccomodationChooser.files[0];
   const fileName = file.name.toLowerCase();
@@ -44,3 +48,6 @@ fileAccomodationChooser.addEventListener('change', () => {
   }
 });
 
+export const resetFileAccomodationChooser = function() {
+  previewAccomodation.style.backgroundImage = '';
+}
