@@ -12,6 +12,24 @@ const mapFilter = document.querySelector('.map__filters');
 const mapFilterSelects = mapFilter.querySelectorAll('select');
 const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
 
+const RERENDER_DELAY = 500;
+
+//объект для хранения выбранных в фильтре свойств. по-умолчанию значения не выбраны
+const filterValues = {
+  type: 'any',
+  price: 'any',
+  rooms: 'any',
+  guests: 'any',
+  selectedFeatures: {
+    wifi: false,
+    dishwasher: false,
+    parking: false,
+    washer: false,
+    elevator: false,
+    conditioner: false,
+  },
+}
+
 export const disableFilterActiveState = function () {
   mapFilter.classList.add('map__filters--disabled');
   for (let element of mapFilterSelects) {
@@ -32,24 +50,7 @@ export const enableFilterActiveState = function () {
     element.disabled = false;
   }
 }
-// enableFilterActiveState();
-// changeFilterActiveState();
 
-//объект для хранения выбранных в фильтре свойств. по-умолчанию значения не выбраны
-const filterValues = {
-  type: 'any',
-  price: 'any',
-  rooms: 'any',
-  guests: 'any',
-  selectedFeatures: {
-    wifi: false,
-    dishwasher: false,
-    parking: false,
-    washer: false,
-    elevator: false,
-    conditioner: false,
-  },
-}
 
 //функция складывания всех значений selectedFeatures
 const getSelectedFeaturesSumma = function (list) {
@@ -122,7 +123,6 @@ const filterBookingPoints = function (evt, storageValues, prop) {
     }));
 }
 
-const RERENDER_DELAY = 500;
 //функция обработки фильтра по типу жилья
 const housingFilterHandler = function (event, storageObject, prop) {
   return function (event) {
