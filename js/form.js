@@ -136,13 +136,13 @@ let roomNumberValue = document.querySelector('#room_number').value;
 let capacityValue = document.querySelector('#capacity').value;
 
 
-const validateRoomNumber = function (roomN, capacityN) {
-  if (roomN === '100') {
+const validateRoomNumber = function (roomCount, capacityCount) {
+  if (roomCount === '100') {
     capacityOptions[capacityOptions.length - 1].disabled = false;
     for (let key = 0; key < capacityOptions.length - 1; key++) {
       capacityOptions[key].disabled = true;
     }
-    if (capacityN !== '0') {
+    if (capacityCount !== '0') {
       capacity.setCustomValidity('Доступен только пункт "Не для гостей"');
     } else {
       capacity.setCustomValidity('');
@@ -150,11 +150,11 @@ const validateRoomNumber = function (roomN, capacityN) {
   } else {
     capacityOptions[capacityOptions.length - 1].disabled = true;
     for (let key = 0; key < capacityOptions.length - 1; key++) {
-      capacityOptions[key].disabled = (roomN < capacityOptions[key].value);
+      capacityOptions[key].disabled = (roomCount < capacityOptions[key].value);
     }
-    if (capacityN === '0') {
+    if (capacityCount === '0') {
       capacity.setCustomValidity('Данный пункт доступен только при количестве комнат 100');
-    } else if  (capacityN > roomN){
+    } else if  (capacityCount > roomCount){
       roomNumber.setCustomValidity('Число комнат необходимо увеличить');
     } else {
       capacity.setCustomValidity('');
