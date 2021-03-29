@@ -3,15 +3,15 @@ import {setDefaultAddress, MapCenter, mainPinMarker, ADVERTISEMENTS_MAX_COUNT} f
 import {handleData} from './main.js';
 import {adFilter} from './filter.js';
 import {addDeleteOneElementClass, changeDisabledState, showAlert} from './util-functions.js';
-import {TYPES} from './popup.js';
+import {Types} from './popup.js';
 import {resetFileAvatarChooser, resetFileAccomodationChooser} from './previews.js';
 
 //Объект для хранения минимальной стоимости жилья
-const TYPES_MIN_PRICES = {
-  palace: 10000,
-  flat: 1000,
-  house: 5000,
-  bungalow: 0,
+const TypesMinPrices = {
+  PALACE: 10000,
+  FLAT: 1000,
+  HOUSE: 5000,
+  BUNGALOW: 0,
 }
 
 const TYPES_MAX_PRICE = '1000000';
@@ -28,17 +28,17 @@ const adPrice = document.querySelector('#price');
 
 //Предварительная проверка установленного по-умолчанию значения типа жилья
 const setDefaultAdType = function () {
-  for (let key in TYPES) {
+  for (let key in Types) {
     if (adType.value === key) {
-      adPrice.setAttribute('min', TYPES_MIN_PRICES[key]);
+      adPrice.setAttribute('min', TypesMinPrices[key]);
     }
   }
 }
 setDefaultAdType();
 //Подписка на событие выбора типа жилья
 adType.addEventListener('change', function (evt) {
-  adPrice.setAttribute('min', TYPES_MIN_PRICES[evt.target.value]);
-  adPrice.placeholder = TYPES_MIN_PRICES[evt.target.value];
+  adPrice.setAttribute('min', TypesMinPrices[evt.target.value.toUpperCase()]);
+  adPrice.placeholder = TypesMinPrices[evt.target.value.toUpperCase()];
 });
 
 

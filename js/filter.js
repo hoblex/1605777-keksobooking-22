@@ -17,18 +17,18 @@ const HIGH_FILTER_PRICE = 50000;
 export const RERENDER_DELAY = 500;
 
 //объект для хранения выбранных в фильтре свойств. по-умолчанию значения не выбраны
-export const filterValues = {
-  type: 'any',
-  price: 'any',
-  rooms: 'any',
-  guests: 'any',
-  selectedFeatures: {
-    wifi: false,
-    dishwasher: false,
-    parking: false,
-    washer: false,
-    elevator: false,
-    conditioner: false,
+export const FilterValues = {
+  TYPE: 'any',
+  PRICE: 'any',
+  ROOMS: 'any',
+  GUESTS: 'any',
+  SelectedFeatures: {
+    WIFI: false,
+    DISHWASHER: false,
+    PARKING: false,
+    WASHER: false,
+    ELEVATOR: false,
+    CONDITIONER: false,
   },
 }
 
@@ -46,11 +46,11 @@ export const enableFilterActiveState = function () {
 }
 
 
-//функция складывания всех значений selectedFeatures
+//функция складывания всех значений SelectedFeatures
 const getSelectedFeaturesSumma = function (list) {
   let summa = Boolean(false);
-  for (let i = 0; i < list.length; i++) {
-    summa = summa || list[i];
+  for (let item in list) {
+    summa = summa || list[item];
   }
   return summa;
 }
@@ -77,11 +77,11 @@ const doPriceConvert = function (alias, price) {
 const compareFeatures = function (featuresList, adFeaturesArray) {
   let featuresExist = Boolean(true);
   if (adFeaturesArray.length === 0) {
-    featuresExist = false;
+    return false;
   }
-  for (let i = 0; i < featuresList.length; i++) {
-    if (featuresList[i]) {
-      featuresExist = featuresExist && adFeaturesArray.some((element) => `${featuresList[i]}` === element);
+  for (let item in featuresList) {
+    if (featuresList[item]) {
+      featuresExist = featuresExist && adFeaturesArray.some((element) => item === element.toUpperCase());
     }
   }
   return featuresExist;
@@ -92,26 +92,26 @@ const filterBookingPoints = function (evt, objectsList, storageValues, prop) {
   removeMarkers();
 
   if (prop !== 'features') {
-    storageValues[prop] = evt.target.value;
+    storageValues[prop.toUpperCase()] = evt.target.value;
   } else {
-    storageValues.selectedFeatures[evt.target.value] = evt.target.checked;
+    storageValues.SelectedFeatures[evt.target.value.toUpperCase()] = evt.target.checked;
   }
 
   getBookingPoints(objectsList
     .filter(function (element) {
-      return (storageValues['type'] !== 'any') ? (`${element.offer['type']}` === `${storageValues['type']}`) : true;
+      return (storageValues['TYPE'] !== 'any') ? (`${element.offer['type']}` === `${storageValues['TYPE']}`) : true;
     })
     .filter(function (element) {
-      return (storageValues['price'] !== 'any') ? (doPriceConvert(storageValues['price'], element.offer['price'])) : true;
+      return (storageValues['PRICE'] !== 'any') ? (doPriceConvert(storageValues['price'], element.offer['PRICE'])) : true;
     })
     .filter(function (element) {
-      return (storageValues['rooms'] !== 'any') ? (`${element.offer['rooms']}` === `${storageValues['rooms']}`) : true;
+      return (storageValues['ROOMS'] !== 'any') ? (`${element.offer['rooms']}` === `${storageValues['ROOMS']}`) : true;
     })
     .filter(function (element) {
-      return (storageValues['guests'] !== 'any') ? (`${element.offer['guests']}` === `${storageValues['guests']}`) : true;
+      return (storageValues['GUESTS'] !== 'any') ? (`${element.offer['guests']}` === `${storageValues['GUESTS']}`) : true;
     })
     .filter(function (element) {
-      return (getSelectedFeaturesSumma(storageValues.selectedFeatures)) ? (compareFeatures(storageValues.selectedFeatures, element.offer.features)) : true;
+      return (getSelectedFeaturesSumma(storageValues.SelectedFeatures)) ? (compareFeatures(storageValues.SelectedFeatures, element.offer.features)) : true;
     }));
 }
 

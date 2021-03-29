@@ -1,8 +1,8 @@
-export const TYPES = {
-  palace : 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalow: 'Бунгало',
+export const Types = {
+  PALACE : 'Дворец',
+  FLAT: 'Квартира',
+  HOUSE: 'Дом',
+  BUNGALOW: 'Бунгало',
 };
 
 const POPUP_FEATURE_BLOCK_CLASS = 'popup__feature';
@@ -17,7 +17,7 @@ export const getNewBookingObjectCard = function (bookingObjectsListItem) {
   offerCard.querySelector('.popup__text--address').textContent = bookingObjectsListItem.offer.address;
   offerCard.querySelector('.popup__text--price').textContent = `${bookingObjectsListItem.offer.price} ₽/ночь`;
 
-  offerCard.querySelector('.popup__type').textContent = TYPES[bookingObjectsListItem.offer.type];
+  offerCard.querySelector('.popup__type').textContent = Types[bookingObjectsListItem.offer.type.toUpperCase()];
 
   offerCard.querySelector('.popup__text--capacity').textContent = `${bookingObjectsListItem.offer.rooms} комнаты для ${bookingObjectsListItem.offer.guests} гостей`;
   offerCard.querySelector('.popup__text--time').textContent = `Заезд после ${bookingObjectsListItem.offer.checkin}, выезд до ${bookingObjectsListItem.offer.checkout}`;
