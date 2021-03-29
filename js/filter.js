@@ -41,12 +41,8 @@ disableFilterActiveState();
 
 export const enableFilterActiveState = function () {
   mapFilter.classList.remove('map__filters--disabled');
-  for (let element of mapFilterSelects) {
-    element.disabled = false;
-  }
-  for (let element of mapFilterFieldsets) {
-    element.disabled = false;
-  }
+  mapFilterSelects.forEach((element) => element.disabled = false)
+  mapFilterFieldsets.forEach((element) => element.disabled = false)
 }
 
 
