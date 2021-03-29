@@ -1,21 +1,23 @@
-/* global _:readonly */
-import {adObjectsList, getBookingPoints, map, markers} from './map.js';
+import {getBookingPoints, removeMarkers} from './map.js';
 
 export const adFilter = document.querySelector('.map__filters');
-const housingType = adFilter.querySelector('#housing-type');
-const housingPrice = adFilter.querySelector('#housing-price');
-const housingRooms = adFilter.querySelector('#housing-rooms');
-const housingGuests = adFilter.querySelector('#housing-guests');
-const housingFeaturesContainer = adFilter.querySelector('#housing-features');
+export const housingType = adFilter.querySelector('#housing-type');
+export const housingPrice = adFilter.querySelector('#housing-price');
+export const housingRooms = adFilter.querySelector('#housing-rooms');
+export const housingGuests = adFilter.querySelector('#housing-guests');
+export const housingFeaturesContainer = adFilter.querySelector('#housing-features');
 
 const mapFilter = document.querySelector('.map__filters');
 const mapFilterSelects = mapFilter.querySelectorAll('select');
 const mapFilterFieldsets = mapFilter.querySelectorAll('fieldset');
 
-const RERENDER_DELAY = 500;
+const LOW_FILTER_PRICE = 10000;
+const HIGH_FILTER_PRICE = 50000;
+
+export const RERENDER_DELAY = 500;
 
 //объект для хранения выбранных в фильтре свойств. по-умолчанию значения не выбраны
-const filterValues = {
+export const filterValues = {
   type: 'any',
   price: 'any',
   rooms: 'any',
@@ -32,12 +34,8 @@ const filterValues = {
 
 export const disableFilterActiveState = function () {
   mapFilter.classList.add('map__filters--disabled');
-  for (let element of mapFilterSelects) {
-    element.disabled = true;
-  }
-  for (let element of mapFilterFieldsets) {
-    element.disabled = true;
-  }
+  mapFilterSelects.forEach((element) => element.disabled = true)
+  mapFilterFieldsets.forEach((element) => element.disabled = true)
 }
 disableFilterActiveState();
 
@@ -55,8 +53,8 @@ export const enableFilterActiveState = function () {
 //функция складывания всех значений selectedFeatures
 const getSelectedFeaturesSumma = function (list) {
   let summa = Boolean(false);
-  for (let item in list) {
-    summa = summa || list[item];
+  for (let i = 0; i < list.length; i++) {
+    summa = summa || list[i];
   }
   return summa;
 }
@@ -65,15 +63,15 @@ const getSelectedFeaturesSumma = function (list) {
 const doPriceConvert = function (alias, price) {
   switch (alias) {
     case 'low' :
-      if (price < 10000)
+      if (price < LOW_FILTER_PRICE)
         return true;
       break;
     case 'middle' :
-      if (price >= 10000 && price < 50000)
+      if (price >= LOW_FILTER_PRICE && price < HIGH_FILTER_PRICE)
         return true;
       break;
     case 'high' :
-      if (price >= 50000)
+      if (price >= HIGH_FILTER_PRICE)
         return true;
       break;
   }
@@ -85,19 +83,17 @@ const compareFeatures = function (featuresList, adFeaturesArray) {
   if (adFeaturesArray.length === 0) {
     featuresExist = false;
   }
-  for (let item in featuresList) {
-    if (featuresList[item]) {
-      featuresExist = featuresExist && adFeaturesArray.some((element) => `${item}` === element);
+  for (let i = 0; i < featuresList.length; i++) {
+    if (featuresList[i]) {
+      featuresExist = featuresExist && adFeaturesArray.some((element) => `${featuresList[i]}` === element);
     }
   }
   return featuresExist;
 }
 
 //функция обработки фильтра
-const filterBookingPoints = function (evt, storageValues, prop) {
-  markers.forEach(function (element) {
-    map.removeLayer(element);
-  });
+const filterBookingPoints = function (evt, objectsList, storageValues, prop) {
+  removeMarkers();
 
   if (prop !== 'features') {
     storageValues[prop] = evt.target.value;
@@ -105,7 +101,7 @@ const filterBookingPoints = function (evt, storageValues, prop) {
     storageValues.selectedFeatures[evt.target.value] = evt.target.checked;
   }
 
-  getBookingPoints(adObjectsList
+  getBookingPoints(objectsList
     .filter(function (element) {
       return (storageValues['type'] !== 'any') ? (`${element.offer['type']}` === `${storageValues['type']}`) : true;
     })
@@ -119,21 +115,14 @@ const filterBookingPoints = function (evt, storageValues, prop) {
       return (storageValues['guests'] !== 'any') ? (`${element.offer['guests']}` === `${storageValues['guests']}`) : true;
     })
     .filter(function (element) {
-      return (getSelectedFeaturesSumma(storageValues.selectedFeatures)) ? (compareFeatures(storageValues.selectedFeatures, element.offer.features)) : true
+      return (getSelectedFeaturesSumma(storageValues.selectedFeatures)) ? (compareFeatures(storageValues.selectedFeatures, element.offer.features)) : true;
     }));
 }
 
 //функция обработки фильтра по типу жилья
-const housingFilterHandler = function (event, storageObject, prop) {
+export const housingFilterHandler = function (event, objectsList, storageObject, prop) {
   return function (event) {
     //функция фильтрации получаемых с сервера данных
-    filterBookingPoints(event, storageObject, prop);
+    filterBookingPoints(event, objectsList, storageObject, prop);
   }
 };
-
-housingType.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'type'), RERENDER_DELAY));
-housingPrice.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'price'), RERENDER_DELAY));
-housingRooms.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'rooms'), RERENDER_DELAY));
-housingGuests.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'guests'), RERENDER_DELAY));
-housingFeaturesContainer.addEventListener('change', _.debounce(housingFilterHandler('change', filterValues, 'features'), RERENDER_DELAY));
-

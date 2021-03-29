@@ -1,5 +1,6 @@
 import {getData, sendData} from './api.js';
-import {setDefaultAddress, MAP_CENTER, mainPinMarker, handleData, ADVERTISEMENTS_MAX_COUNT} from './map.js';
+import {setDefaultAddress, MAP_CENTER, mainPinMarker, ADVERTISEMENTS_MAX_COUNT} from './map.js';
+import {handleData} from './main.js';
 import {adFilter} from './filter.js';
 import {addDeleteOneElementClass, changeDisabledState, showAlert} from './util-functions.js';
 import {TYPES} from './popup.js';
@@ -43,7 +44,7 @@ adType.addEventListener('change', function (evt) {
 
 //установка максимального значения стоимости жилья всех типов
 adPrice.setAttribute('max', TYPES_MAX_PRICE);
-//валидация цены при вводе значения в соответсвтующее поле
+//валидация цены при вводе значения в соответствующее поле
 adPrice.addEventListener('input', function (evt){
   const valuePrice = evt.target.value;
 
@@ -233,7 +234,7 @@ const doErrorSentForm = function () {
   const modalError = document.querySelector(('#error')).content.querySelector('.error').cloneNode(true);
   const modalErrorButton = modalError.querySelector('.error__button');
   adForm.appendChild(modalError);
-  modalError.style.zIndex = 1100;
+  modalError.style.zIndex = '1100';
   document.addEventListener('keydown', escKeydownHandler('keydown', modalError));
   document.addEventListener('click', mouseClickHandler('click', modalError));
   modalErrorButton.addEventListener('click', mouseClickHandler('click', modalError));
