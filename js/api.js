@@ -21,6 +21,6 @@ export const sendData = (onSuccess, onFail, body) => {
 export const getData = function (onSuccess, onFail, maxCount) {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
-    .then((list) => onSuccess(list.slice(0, maxCount)))
+    .then((list) => {onSuccess(list.slice(0, maxCount)); console.log(onSuccess)})
     .catch(onFail);
 }

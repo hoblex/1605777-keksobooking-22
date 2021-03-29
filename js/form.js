@@ -213,7 +213,7 @@ const resetForm = function () {
 const doSuccessSentForm = function () {
   const modalSuccess = document.querySelector(('#success')).content.querySelector('.success').cloneNode(true);
   adForm.appendChild(modalSuccess);
-  modalSuccess.style.zIndex = 1100;
+  modalSuccess.style.zIndex = '1100';
   resetForm();
   //закрытие модального окна по нажатию на ESC
   document.addEventListener('keydown', escKeydownHandler('keydown', modalSuccess));
