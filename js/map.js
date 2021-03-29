@@ -2,7 +2,7 @@
 import {adFormAddress, changePageActiveState} from './form.js';
 import {getBookingObjectsCardList} from './popup.js';
 
-export const MAP_CENTER = {
+export const MapCenter = {
   lat: 35.6895,
   lng: 139.69171,
 }
@@ -14,7 +14,7 @@ export const map = L.map('map-canvas')
   .on('load', () => {
     changePageActiveState();
   })
-  .setView(MAP_CENTER, 10);
+  .setView(MapCenter, 10);
 
 
 //добавление описания карты
@@ -42,7 +42,7 @@ const createMainPinMarker = function (coordinates) {
   );
   return newMarker;
 }
-export const mainPinMarker = createMainPinMarker(MAP_CENTER);
+export const mainPinMarker = createMainPinMarker(MapCenter);
 
 //добавление маркера на карту
 export const addMainPinMarkerToMap = function (marker) {

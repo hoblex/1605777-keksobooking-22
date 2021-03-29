@@ -1,5 +1,5 @@
 import {getData, sendData} from './api.js';
-import {setDefaultAddress, MAP_CENTER, mainPinMarker, ADVERTISEMENTS_MAX_COUNT} from './map.js';
+import {setDefaultAddress, MapCenter, mainPinMarker, ADVERTISEMENTS_MAX_COUNT} from './map.js';
 import {handleData} from './main.js';
 import {adFilter} from './filter.js';
 import {addDeleteOneElementClass, changeDisabledState, showAlert} from './util-functions.js';
@@ -203,7 +203,7 @@ const mouseClickHandler = function (evt, target) {
 const resetForm = function () {
   adForm.reset();
   adFilter.reset();
-  mainPinMarker.setLatLng(MAP_CENTER);
+  mainPinMarker.setLatLng(MapCenter);
   setDefaultAddress(mainPinMarker);
   getData(handleData, showAlert, ADVERTISEMENTS_MAX_COUNT);
   resetFileAvatarChooser();
